@@ -2,19 +2,22 @@ import React, { useState } from 'react';
 import { Card, CardContent } from '../../components/ui/Card';
 import { Modal } from '../../components/ui/Modal';
 import { Badge } from '../../components/ui/Badge';
+import { Button } from '../../components/ui/Button';
 import {
-  FlaskConical,
-  Play,
+  Terminal,
   Gauge,
-  Scale,
+  CheckSquare,
+  AlertOctagon,
   ArrowRight,
   Info,
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface ActionItem {
   id: string;
   title: string;
   description: string;
+  path: string;
   icon: React.ComponentType<{ className?: string }>;
   phaseNumber: number;
   phaseTitle: string;
@@ -23,40 +26,44 @@ interface ActionItem {
 
 const QUICK_ACTIONS: ActionItem[] = [
   {
-    id: 'create-experiment',
-    title: 'Create Experiment',
-    description: 'Track prompt iterations, temperature variations, and output artifacts.',
-    icon: FlaskConical,
+    id: 'launch-playground',
+    title: 'Model Playground',
+    description: '3-pane configurable scientific instrument for prompt iteration and parameter tuning.',
+    path: '/playground',
+    icon: Terminal,
     phaseNumber: 2,
     phaseTitle: 'Model Playground & Integration',
-    details: 'The experiment tracking service will log hyperparameters, prompt variations, and lineage. Scheduled for implementation in Phase 2.',
-  },
-  {
-    id: 'run-evaluation',
-    title: 'Run Evaluation',
-    description: 'Execute automated scoring rubrics, code checks, or judge models.',
-    icon: Play,
-    phaseNumber: 4,
-    phaseTitle: 'Evaluation & Scoring Engine',
-    details: 'The evaluation runner executes model responses through deterministic code tests and LLM-as-a-Judge rubrics. Scheduled for Phase 4.',
+    details: 'Configures system instructions, prompt variations, and hyperparameter controls across multiple provider models. Scheduled for Phase 2.',
   },
   {
     id: 'explore-benchmarks',
-    title: 'Explore Benchmarks',
-    description: 'Inspect standardized research datasets (MMLU, GSM8K, ARC, HumanEval).',
+    title: 'Benchmark Engine',
+    description: 'Standardized evaluation suites (MMLU-Pro, GSM8K, ARC, HumanEval) with score tables.',
+    path: '/benchmarks',
     icon: Gauge,
     phaseNumber: 3,
     phaseTitle: 'Benchmark & Dataset Engine',
-    details: 'The benchmark catalog and automated suite execution harness will arrive in Phase 3. No synthetic scores are shown prematurely.',
+    details: 'Executes academic and custom evaluation suites with batch concurrency and reproducible seed matrices. Scheduled for Phase 3.',
   },
   {
-    id: 'compare-models',
-    title: 'Compare Models',
-    description: 'Perform side-by-side win-rate analysis and Pareto frontier graphing.',
-    icon: Scale,
-    phaseNumber: 8,
-    phaseTitle: 'Model Intelligence & Comparative Analytics',
-    details: 'Model comparison analytics calculate Bradley-Terry win rates, cost vs. accuracy tradeoffs, and intelligence radar plots in Phase 8.',
+    id: 'configure-evaluators',
+    title: 'Evaluation Engines',
+    description: 'Deterministic validators, semantic distance scorers, and calibrated LLM judges.',
+    path: '/evaluators',
+    icon: CheckSquare,
+    phaseNumber: 4,
+    phaseTitle: 'Evaluation & Scoring Engine',
+    details: 'Configures exact match, regex assertions, JSON schema compliance, and multi-metric LLM-as-a-judge rubrics. Scheduled for Phase 4.',
+  },
+  {
+    id: 'failure-investigation',
+    title: 'Failure Analysis',
+    description: '3-column root-cause investigation workspace for hallucinations and refusal modes.',
+    path: '/failure-analysis',
+    icon: AlertOctagon,
+    phaseNumber: 6,
+    phaseTitle: 'Failure Analysis & Error Intelligence',
+    details: 'Automated clustering of error categories, refusal diagnosis, and cross-model failure patterns. Scheduled for Phase 6.',
   },
 ];
 
@@ -65,11 +72,16 @@ export const QuickActions: React.FC = () => {
 
   return (
     <div className="space-y-3">
-      <h3 className="text-xs font-mono font-semibold text-lab-text-muted uppercase tracking-wider">
-        Quick Action Entry Points
-      </h3>
+      <div className="flex items-center justify-between">
+        <h3 className="text-xs font-semibold text-slate-700 uppercase tracking-wider">
+          Scientific Module Launchers
+        </h3>
+        <span className="text-[11px] text-slate-400 font-mono">
+          4 Research Workstations
+        </span>
+      </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
         {QUICK_ACTIONS.map((action) => {
           const Icon = action.icon;
           return (
@@ -81,7 +93,7 @@ export const QuickActions: React.FC = () => {
             >
               <CardContent className="space-y-3 p-4 sm:p-5">
                 <div className="flex items-center justify-between">
-                  <div className="w-8 h-8 rounded-lg bg-lab-surface border border-lab-border flex items-center justify-center text-lab-text-secondary group-hover:text-lab-accent-lime group-hover:scale-105 group-hover:border-lab-accent-lime/40 transition-all duration-200 ease-apple">
+                  <div className="w-8 h-8 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-600 group-hover:text-sky-600 group-hover:bg-sky-50 group-hover:border-sky-200 transition-colors">
                     <Icon className="w-4 h-4" />
                   </div>
                   <Badge variant="not_implemented" size="xs">
@@ -90,17 +102,17 @@ export const QuickActions: React.FC = () => {
                 </div>
 
                 <div>
-                  <h4 className="text-xs font-semibold text-lab-text-primary group-hover:text-white transition-colors duration-150">
+                  <h4 className="text-xs font-bold text-slate-900 group-hover:text-sky-950 transition-colors">
                     {action.title}
                   </h4>
-                  <p className="text-[11px] text-lab-text-muted mt-1 leading-relaxed line-clamp-2">
+                  <p className="text-[11px] text-slate-500 mt-1 leading-relaxed line-clamp-2">
                     {action.description}
                   </p>
                 </div>
 
-                <div className="pt-1 flex items-center gap-1.5 text-[11px] font-mono text-lab-text-faint group-hover:text-lab-accent-lime transition-colors duration-150">
-                  <span>View roadmap specs</span>
-                  <ArrowRight className="w-3 h-3 transition-transform duration-200 ease-apple group-hover:translate-x-1" />
+                <div className="pt-1 flex items-center gap-1.5 text-[11px] font-medium text-slate-400 group-hover:text-sky-600 transition-colors">
+                  <span>Explore specifications</span>
+                  <ArrowRight className="w-3 h-3 transition-transform duration-150 group-hover:translate-x-1" />
                 </div>
               </CardContent>
             </Card>
@@ -114,27 +126,39 @@ export const QuickActions: React.FC = () => {
           isOpen={true}
           onClose={() => setSelectedAction(null)}
           title={selectedAction.title}
-          subtitle={`Planned entry point for Roadmap Phase ${selectedAction.phaseNumber}.`}
+          subtitle={`Roadmap Milestone: Phase ${selectedAction.phaseNumber} (${selectedAction.phaseTitle})`}
+          footer={
+            <div className="flex items-center gap-2">
+              <Button variant="secondary" size="xs" onClick={() => setSelectedAction(null)}>
+                Close
+              </Button>
+              <Link to={selectedAction.path}>
+                <Button variant="primary" size="xs" icon={<ArrowRight className="w-3 h-3" />}>
+                  Navigate to {selectedAction.title}
+                </Button>
+              </Link>
+            </div>
+          }
         >
-          <div className="space-y-4 text-xs text-lab-text-secondary">
-            <div className="p-3.5 bg-neutral-900 rounded-xl border border-neutral-800 space-y-2">
+          <div className="space-y-3.5 text-xs text-slate-600">
+            <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200/90 space-y-1.5">
               <div className="flex items-center justify-between">
-                <span className="font-semibold text-lab-text-primary">
+                <span className="font-semibold text-slate-900">
                   {selectedAction.phaseTitle}
                 </span>
                 <Badge variant="pending" size="xs">
                   Phase {selectedAction.phaseNumber}
                 </Badge>
               </div>
-              <p className="text-neutral-400 text-[11px] leading-relaxed">
+              <p className="text-slate-600 text-[11px] leading-relaxed">
                 {selectedAction.details}
               </p>
             </div>
 
-            <div className="flex items-start gap-2.5 text-lab-text-muted text-[11px] leading-relaxed p-2.5 bg-lab-surface/50 rounded-lg border border-lab-borderSubtle">
-              <Info className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+            <div className="flex items-start gap-2.5 text-slate-500 text-[11px] leading-relaxed p-3 bg-white rounded-lg border border-slate-200">
+              <Info className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
               <span>
-                In adherence to Phase 1 engineering guidelines, mock wizards and fake execution buttons are disabled. Real model execution will be implemented in Phase 2.
+                In strict compliance with Phase 1 design guidelines, fake model executions and dummy runs are disabled. The page provides a fully interactive ergonomic preview of the future instrument.
               </span>
             </div>
           </div>

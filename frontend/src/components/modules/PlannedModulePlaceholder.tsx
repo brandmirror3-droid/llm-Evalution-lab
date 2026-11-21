@@ -12,6 +12,8 @@ import {
   Play,
   ShieldAlert,
   Layers,
+  Calendar,
+  Lock,
 } from 'lucide-react';
 
 interface PlannedModulePlaceholderProps {
@@ -76,7 +78,7 @@ export const PlannedModulePlaceholder: React.FC<PlannedModulePlaceholderProps> =
         status: response.status,
         message: data?.error?.message || 'Action rejected as expected in Phase 1.',
       });
-    } catch (err) {
+    } catch {
       setProbeResult({
         tested: true,
         status: 501,
@@ -95,7 +97,7 @@ export const PlannedModulePlaceholder: React.FC<PlannedModulePlaceholderProps> =
         <Button
           variant="outline"
           size="sm"
-          icon={<Play className="w-3.5 h-3.5 text-lab-text-muted" />}
+          icon={<Play className="w-3.5 h-3.5 text-slate-500" />}
           onClick={handleTestExecution}
         >
           Verify Inactivity Gate
@@ -104,13 +106,13 @@ export const PlannedModulePlaceholder: React.FC<PlannedModulePlaceholderProps> =
     >
       <div className="space-y-6">
         {/* Transparent Status Alert */}
-        <div className="p-4 rounded-lg bg-neutral-900/60 border border-neutral-800 flex items-start gap-3 text-xs text-neutral-300">
-          <Clock className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+        <div className="p-4 rounded-xl bg-amber-50/80 border border-amber-200/80 flex items-start gap-3 text-xs text-amber-900 shadow-sm">
+          <Clock className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
           <div className="space-y-1">
-            <span className="font-semibold text-neutral-200">
+            <span className="font-semibold text-amber-950">
               Module Inactive in Phase 1
             </span>
-            <p className="text-neutral-400 leading-relaxed">
+            <p className="text-amber-800 leading-relaxed text-[11px]">
               This module is not implemented yet. Per the project specifications, only Phase 1 (Lab Foundation & Architecture) is active. No dummy results or fake executions are simulated.
             </p>
           </div>
@@ -122,21 +124,21 @@ export const PlannedModulePlaceholder: React.FC<PlannedModulePlaceholderProps> =
             <CardHeader
               title="Module Specification & Objectives"
               subtitle={`Roadmap Phase ${moduleInfo.phase_number}`}
-              icon={<Layers className="w-4 h-4" />}
+              icon={<Layers className="w-4 h-4 text-sky-600" />}
             />
             <CardContent className="space-y-4 text-xs">
-              <p className="text-lab-text-secondary leading-relaxed">
+              <p className="text-slate-600 leading-relaxed">
                 {moduleInfo.description}
               </p>
 
               <div className="pt-2">
-                <h4 className="font-semibold text-lab-text-primary mb-2.5">
+                <h4 className="font-semibold text-slate-900 mb-2.5">
                   Target Capabilities & Architecture
                 </h4>
                 <ul className="space-y-2">
                   {moduleInfo.target_capabilities.map((cap, i) => (
-                    <li key={i} className="flex items-start gap-2 text-lab-text-secondary">
-                      <span className="w-1.5 h-1.5 rounded-full bg-lab-text-muted mt-1.5 shrink-0" />
+                    <li key={i} className="flex items-start gap-2.5 text-slate-600">
+                      <span className="w-1.5 h-1.5 rounded-full bg-sky-500 mt-1.5 shrink-0" />
                       <span>{cap}</span>
                     </li>
                   ))}
@@ -149,23 +151,35 @@ export const PlannedModulePlaceholder: React.FC<PlannedModulePlaceholderProps> =
             <CardHeader
               title="Readiness Status"
               subtitle="Foundation Dependencies"
-              icon={<ShieldAlert className="w-4 h-4" />}
+              icon={<ShieldAlert className="w-4 h-4 text-slate-600" />}
             />
             <CardContent className="space-y-3 text-xs">
-              <div className="flex items-center justify-between py-1.5 border-b border-lab-borderSubtle">
-                <span className="text-lab-text-muted">Phase 1 Foundation</span>
+              <div className="flex items-center justify-between py-2 border-b border-slate-100">
+                <span className="text-slate-500 flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                  Phase 1 Foundation
+                </span>
                 <Badge variant="verified" size="xs">Active</Badge>
               </div>
-              <div className="flex items-center justify-between py-1.5 border-b border-lab-borderSubtle">
-                <span className="text-lab-text-muted">Target Phase</span>
-                <span className="font-mono text-lab-text-secondary">Phase {moduleInfo.phase_number}</span>
+              <div className="flex items-center justify-between py-2 border-b border-slate-100">
+                <span className="text-slate-500 flex items-center gap-1.5">
+                  <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                  Target Phase
+                </span>
+                <span className="font-mono text-slate-700 font-medium">Phase {moduleInfo.phase_number}</span>
               </div>
-              <div className="flex items-center justify-between py-1.5 border-b border-lab-borderSubtle">
-                <span className="text-lab-text-muted">Execution Harness</span>
+              <div className="flex items-center justify-between py-2 border-b border-slate-100">
+                <span className="text-slate-500 flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5 text-amber-500" />
+                  Execution Harness
+                </span>
                 <Badge variant="pending" size="xs">Awaiting Phase</Badge>
               </div>
-              <div className="flex items-center justify-between py-1.5">
-                <span className="text-lab-text-muted">Mock Data Generation</span>
+              <div className="flex items-center justify-between py-2">
+                <span className="text-slate-500 flex items-center gap-1.5">
+                  <Lock className="w-3.5 h-3.5 text-slate-400" />
+                  Mock Simulation
+                </span>
                 <Badge variant="not_configured" size="xs">Disabled by Rule</Badge>
               </div>
             </CardContent>
@@ -181,21 +195,21 @@ export const PlannedModulePlaceholder: React.FC<PlannedModulePlaceholderProps> =
         subtitle="Verifies that premature future executions are strictly blocked by the backend API."
       >
         <div className="space-y-3 text-xs">
-          <div className="p-3 bg-neutral-900 rounded-lg border border-neutral-800 font-mono text-[11px] space-y-1">
+          <div className="p-3 bg-slate-900 rounded-lg border border-slate-800 font-mono text-[11px] space-y-1.5 text-slate-200">
             <div className="flex justify-between">
-              <span className="text-neutral-400">Endpoint:</span>
-              <span className="text-neutral-200">POST /api/v1/modules/{moduleSlug}/execute</span>
+              <span className="text-slate-400">Endpoint:</span>
+              <span className="text-slate-200">POST /api/v1/modules/{moduleSlug}/execute</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-neutral-400">Response Code:</span>
+              <span className="text-slate-400">Response Code:</span>
               <span className="text-amber-400">{probeResult.status || '501 Not Implemented'}</span>
             </div>
           </div>
-          <p className="text-lab-text-secondary leading-relaxed">
+          <p className="text-slate-600 leading-relaxed">
             {probeResult.message}
           </p>
-          <div className="p-2.5 bg-emerald-950/40 border border-emerald-800/40 rounded text-emerald-400 text-[11px] flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 shrink-0" />
+          <div className="p-2.5 bg-emerald-50 border border-emerald-200 rounded-lg text-emerald-800 text-[11px] flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-600" />
             <span>Integrity check passed: Future features cannot execute prematurely.</span>
           </div>
         </div>

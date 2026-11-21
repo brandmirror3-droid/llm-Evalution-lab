@@ -1,122 +1,116 @@
 import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { IntelligencePulseCanvas } from '../../components/visualization/IntelligencePulseCanvas';
-import { Shield, Terminal } from 'lucide-react';
+import { Button } from '../../components/ui/Button';
+import { SignalWaveformCanvas } from '../../components/visualization/SignalWaveformCanvas';
+import { ShieldCheck, Terminal, ArrowRight, Layers, FileCode } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { heroContainerVariants, heroChildVariants } from '../../utils/motion';
 
-export const WelcomeBanner: React.FC = () => {
+interface WelcomeBannerProps {
+  onOpenRoadmap?: () => void;
+}
+
+export const WelcomeBanner: React.FC<WelcomeBannerProps> = ({ onOpenRoadmap }) => {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-b from-lab-card/90 via-lab-surface to-lab-bg border border-lab-border shadow-card">
-      {/* Living signature canvas background */}
-      <div className="absolute inset-0 opacity-40 mix-blend-screen pointer-events-none">
-        <IntelligencePulseCanvas
-          variant="background"
-          showLabels={false}
-          interactive={true}
-        />
+    <div className="relative overflow-hidden rounded-2xl bg-white border border-slate-200/90 shadow-card">
+      {/* Background scientific signal canvas */}
+      <div className="absolute inset-0 opacity-45 pointer-events-none">
+        <SignalWaveformCanvas variant="banner" interactive={true} />
       </div>
 
-      {/* Subtle radial vignette to ensure high-contrast readability */}
-      <div className="absolute inset-0 bg-gradient-to-r from-lab-bg/95 via-lab-bg/80 to-transparent pointer-events-none" />
+      {/* Subtle linear white fade over canvas */}
+      <div className="absolute inset-0 bg-gradient-to-r from-white via-white/85 to-white/40 pointer-events-none" />
 
-      {/* Staggered entrance content */}
+      {/* Main hero editorial content */}
       <motion.div
         variants={shouldReduceMotion ? undefined : heroContainerVariants}
         initial="hidden"
         animate="visible"
-        className="relative z-10 p-6 sm:p-8 lg:p-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8"
+        className="relative z-10 p-6 sm:p-8 lg:p-9 flex flex-col justify-between gap-6"
       >
-        <div className="space-y-4 max-w-2xl">
-          {/* Eyebrow appears first */}
+        <div className="space-y-3.5 max-w-2xl">
+          {/* Eyebrow */}
           <motion.div variants={shouldReduceMotion ? undefined : heroChildVariants}>
-            <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-lab-surface/90 border border-lab-border text-xs">
-              <span className="w-1.5 h-1.5 rounded-full bg-lab-accent-lime animate-pulse" />
-              <span className="font-mono text-[11px] text-lab-accent-lime uppercase tracking-wider font-semibold">
+            <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-slate-50 border border-slate-200 text-xs">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse" />
+              <span className="font-mono text-[10px] text-slate-700 font-semibold tracking-wider uppercase">
                 Phase 1 Active
               </span>
-              <span className="text-lab-text-faint">|</span>
-              <span className="text-[11px] text-lab-text-secondary">
-                Foundation & Architecture
+              <span className="text-slate-300">|</span>
+              <span className="text-[11px] text-slate-500 font-medium">
+                Lab Foundation & Architecture
               </span>
             </div>
           </motion.div>
 
-          {/* Main heading reveals smoothly */}
+          {/* Strong specific headline */}
           <motion.h2
             variants={shouldReduceMotion ? undefined : heroChildVariants}
-            className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-lab-text-primary"
+            className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 leading-tight"
           >
-            The Scientific Lab for <br className="hidden sm:inline" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-lab-text-primary to-lab-text-secondary">
-              LLM Evaluation & Reliability
-            </span>
+            Scientific Workstation for Empirical LLM Evaluation & Reliability
           </motion.h2>
 
-          {/* Description fades in afterward */}
+          {/* Clear purpose statement */}
           <motion.p
             variants={shouldReduceMotion ? undefined : heroChildVariants}
-            className="text-xs sm:text-sm text-lab-text-secondary leading-relaxed max-w-xl"
+            className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-xl"
           >
-            LLM Evaluation Lab is an environment for systematically testing and understanding the performance, reliability, and failure patterns of language models. Built with mathematical precision and zero fabricated metrics.
+            Systematically measure accuracy, detect hallucinations, analyze failure modes, and benchmark model intelligence across controlled experimental environments — with verifiable empirical rigor.
           </motion.p>
 
-          {/* Badges enter with slight stagger */}
+          {/* Primary & Secondary actions */}
           <motion.div
             variants={shouldReduceMotion ? undefined : heroChildVariants}
-            className="flex flex-wrap items-center gap-4 text-xs text-lab-text-muted pt-2"
+            className="pt-2 flex flex-wrap items-center gap-3"
           >
-            <span className="flex items-center gap-1.5 text-lab-text-secondary">
-              <Shield className="w-3.5 h-3.5 text-lab-accent-lime" />
-              Empirical evaluation over vanity benchmarks
-            </span>
-            <span className="flex items-center gap-1.5 text-lab-text-secondary">
-              <Terminal className="w-3.5 h-3.5 text-lab-text-muted" />
-              FastAPI v1 + React Monorepo Foundation
-            </span>
+            <Link to="/playground">
+              <Button
+                variant="primary"
+                size="sm"
+                icon={<ArrowRight className="w-3.5 h-3.5" />}
+              >
+                Explore Playground Instrument
+              </Button>
+            </Link>
+
+            {onOpenRoadmap && (
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={onOpenRoadmap}
+                icon={<Layers className="w-3.5 h-3.5 text-slate-400" />}
+              >
+                Inspect 12-Phase Roadmap
+              </Button>
+            )}
           </motion.div>
         </div>
 
-        {/* Right side: Architecture Identity Card */}
+        {/* Bottom subtle metadata indicators */}
         <motion.div
           variants={shouldReduceMotion ? undefined : heroChildVariants}
-          className="shrink-0 flex flex-col items-start lg:items-end"
+          className="pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4 text-xs text-slate-500"
         >
-          <div className="w-full sm:w-72 p-4 rounded-xl bg-lab-surface/80 backdrop-blur-md border border-lab-border space-y-3 shadow-subtle">
-            <div className="flex items-center justify-between text-xs pb-2 border-b border-lab-borderSubtle">
-              <span className="font-mono text-lab-text-muted uppercase text-[10px] tracking-wider">
-                Pipeline Lifecycle
-              </span>
-              <span className="font-mono text-[10px] text-lab-accent-lime flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-lab-accent-lime" />
-                Live Architecture
-              </span>
-            </div>
+          <div className="flex flex-wrap items-center gap-4">
+            <span className="flex items-center gap-1.5">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+              Verified Telemetry Active
+            </span>
+            <span className="flex items-center gap-1.5">
+              <Terminal className="w-3.5 h-3.5 text-slate-400" />
+              FastAPI v1 Backend Connected
+            </span>
+            <span className="flex items-center gap-1.5">
+              <FileCode className="w-3.5 h-3.5 text-slate-400" />
+              SQLAlchemy 2.0 Async
+            </span>
+          </div>
 
-            <div className="space-y-1.5 text-xs font-mono">
-              <div className="flex items-center justify-between py-0.5 text-lab-text-secondary">
-                <span className="text-lab-text-muted">01 INPUT</span>
-                <span className="text-[11px] text-lab-text-primary">Tokens & Datasets</span>
-              </div>
-              <div className="flex items-center justify-between py-0.5 text-lab-text-secondary">
-                <span className="text-lab-text-muted">02 MODEL</span>
-                <span className="text-[11px] text-lab-text-primary">Parameters & Attention</span>
-              </div>
-              <div className="flex items-center justify-between py-0.5 text-lab-text-secondary">
-                <span className="text-lab-text-muted">03 EVAL</span>
-                <span className="text-[11px] text-lab-text-primary">Rubrics & Judges</span>
-              </div>
-              <div className="flex items-center justify-between py-0.5 text-lab-text-secondary">
-                <span className="text-lab-text-muted">04 INSIGHT</span>
-                <span className="text-[11px] text-lab-accent-lime">Failure Taxonomies</span>
-              </div>
-            </div>
-
-            <div className="pt-2 border-t border-lab-borderSubtle flex items-center justify-between text-[11px] text-lab-text-muted">
-              <span>Simulation mode:</span>
-              <span className="font-mono text-rose-400">Strictly Disabled</span>
-            </div>
+          <div className="font-mono text-[11px] text-slate-400">
+            SIMULATION MODE: <span className="text-slate-700 font-semibold">STRICTLY DISABLED</span>
           </div>
         </motion.div>
       </motion.div>

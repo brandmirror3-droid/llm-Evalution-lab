@@ -23,9 +23,9 @@ export const Skeleton: React.FC<SkeletonProps> = ({
   return (
     <div
       style={{ width, height }}
-      className={`relative overflow-hidden bg-lab-surface/80 border border-lab-borderSubtle ${variantStyles[variant]} ${className}`}
+      className={`relative overflow-hidden bg-slate-100 border border-slate-200/60 ${variantStyles[variant]} ${className}`}
     >
-      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.04] to-transparent -translate-x-full animate-shimmer" />
+      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent -translate-x-full animate-shimmer" />
     </div>
   );
 };

@@ -12,21 +12,21 @@ export const StatusIndicator: React.FC<StatusIndicatorProps> = ({
   size = 'md',
   withPulse = false,
 }) => {
-  let color = 'bg-neutral-500';
-  let pulseColor = 'bg-neutral-400';
+  let color = 'bg-slate-400';
+  let pulseColor = 'bg-slate-300';
 
   if (status === 'operational' || status === 'healthy') {
-    color = 'bg-emerald-500';
+    color = 'bg-emerald-600';
     pulseColor = 'bg-emerald-400';
   } else if (status === 'degraded' || status === 'awaiting_setup') {
-    color = 'bg-amber-500';
+    color = 'bg-amber-600';
     pulseColor = 'bg-amber-400';
   } else if (status === 'disconnected' || status === 'unhealthy') {
-    color = 'bg-rose-500';
+    color = 'bg-rose-600';
     pulseColor = 'bg-rose-400';
   } else if (status === 'not_configured' || status === 'not_implemented') {
-    color = 'bg-neutral-600';
-    pulseColor = 'bg-neutral-500';
+    color = 'bg-slate-400';
+    pulseColor = 'bg-slate-300';
   }
 
   const sizeClasses = {
@@ -39,7 +39,7 @@ export const StatusIndicator: React.FC<StatusIndicatorProps> = ({
     <span className="relative flex items-center justify-center">
       {withPulse && (
         <span
-          className={`absolute inline-flex h-full w-full rounded-full opacity-75 animate-ping ${pulseColor}`}
+          className={`absolute inline-flex h-full w-full rounded-full opacity-60 animate-ping ${pulseColor}`}
         />
       )}
       <span className={`relative inline-flex rounded-full ${color} ${sizeClasses[size]}`} />

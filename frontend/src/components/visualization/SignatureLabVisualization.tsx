@@ -56,9 +56,9 @@ export const SignatureLabVisualization: React.FC = () => {
       <CardHeader
         title="The Intelligence Pulse — Core System Architecture"
         subtitle="Ambient conceptual representation of the evaluation lifecycle: Input → Model → Evaluation → Insights."
-        icon={<Activity className="w-4 h-4 text-lab-accent-lime" />}
+        icon={<Activity className="w-4 h-4 text-sky-600" />}
         action={
-          <Badge variant="lime" size="xs">
+          <Badge variant="verified" size="xs">
             Visual Identity
           </Badge>
         }

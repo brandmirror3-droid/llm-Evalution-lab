@@ -1,6 +1,6 @@
 import React from 'react';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
+export type ButtonVariant = 'primary' | 'secondary' | 'accent' | 'outline' | 'ghost' | 'danger';
 export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -21,19 +21,21 @@ export const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const baseStyles =
-    'relative group inline-flex items-center justify-center font-medium transition-all duration-150 ease-apple focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-lab-accent-lime disabled:pointer-events-none disabled:opacity-40 rounded-lg active:scale-[0.98] select-none';
+    'relative group inline-flex items-center justify-center font-medium transition-all duration-150 ease-apple focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500/30 disabled:pointer-events-none disabled:opacity-45 rounded-lg active:scale-[0.98] select-none';
 
   const variants: Record<ButtonVariant, string> = {
     primary:
-      'bg-lab-text-primary text-lab-bg hover:bg-white active:bg-neutral-200 border border-transparent shadow-subtle hover:shadow-glowLime',
+      'bg-slate-900 text-white hover:bg-slate-800 active:bg-slate-950 shadow-subtle',
     secondary:
-      'bg-lab-card hover:bg-lab-cardHover text-lab-text-primary border border-lab-border hover:border-neutral-700 active:bg-lab-surface',
+      'bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 hover:border-slate-300 shadow-subtle',
+    accent:
+      'bg-sky-600 hover:bg-sky-700 active:bg-sky-800 text-white shadow-subtle',
     outline:
-      'bg-transparent hover:bg-lab-surface text-lab-text-secondary hover:text-lab-text-primary border border-lab-border hover:border-neutral-600',
+      'bg-transparent hover:bg-slate-100/70 text-slate-700 border border-slate-300',
     ghost:
-      'bg-transparent hover:bg-lab-surface text-lab-text-secondary hover:text-lab-text-primary',
+      'bg-transparent hover:bg-slate-100 text-slate-600 hover:text-slate-900',
     danger:
-      'bg-rose-950/60 hover:bg-rose-900/80 text-rose-300 border border-rose-800/60',
+      'bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200',
   };
 
   const sizes: Record<ButtonSize, string> = {
@@ -51,7 +53,7 @@ export const Button: React.FC<ButtonProps> = ({
     >
       {isLoading ? (
         <svg
-          className="animate-spin h-3.5 w-3.5"
+          className="animate-spin h-3.5 w-3.5 text-current"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"

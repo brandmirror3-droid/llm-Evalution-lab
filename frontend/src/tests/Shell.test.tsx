@@ -42,16 +42,16 @@ describe('LLM Evaluation Lab Shell & Navigation', () => {
   it('renders application brand and navigation sections', async () => {
     render(<App />);
     expect(await screen.findByText('EVALUATION LAB')).toBeInTheDocument();
-    expect(screen.getAllByText('LAB').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('WORKSPACE').length).toBeGreaterThanOrEqual(1);
     expect(screen.getAllByText('EVALUATION').length).toBeGreaterThanOrEqual(1);
-    expect(screen.getByText('INTELLIGENCE')).toBeInTheDocument();
+    expect(screen.getByText('ANALYSIS & INTELLIGENCE')).toBeInTheDocument();
     expect(screen.getByText('SYSTEM')).toBeInTheDocument();
   });
 
   it('renders overview page with lab mission banner and status cards', async () => {
     render(<App />);
-    expect(await screen.findByText(/LLM Evaluation Lab is an environment for systematically testing/i)).toBeInTheDocument();
-    expect(screen.getByText(/Quick Action Entry Points/i)).toBeInTheDocument();
-    expect(screen.getByText(/Research Workspace/i)).toBeInTheDocument();
+    expect(await screen.findByText(/Systematically measure accuracy, detect hallucinations/i)).toBeInTheDocument();
+    expect(screen.getByText(/Scientific Module Launchers/i)).toBeInTheDocument();
+    expect(screen.getByText(/Research Activity & Workbench/i)).toBeInTheDocument();
   });
 });

@@ -26,7 +26,7 @@ export const Tabs: React.FC<TabsProps> = ({
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <div className={`flex items-center gap-1 border-b border-lab-borderSubtle ${className}`}>
+    <div className={`flex items-center gap-1 border-b border-slate-200 ${className}`}>
       {tabs.map((tab) => {
         const isActive = tab.id === activeTab;
         return (
@@ -35,8 +35,8 @@ export const Tabs: React.FC<TabsProps> = ({
             onClick={() => onChange(tab.id)}
             className={`relative flex items-center gap-2 px-3.5 py-2.5 text-xs font-medium transition-colors select-none ${
               isActive
-                ? 'text-lab-text-primary'
-                : 'text-lab-text-muted hover:text-lab-text-secondary'
+                ? 'text-slate-900 font-semibold'
+                : 'text-slate-500 hover:text-slate-800'
             }`}
           >
             <span className="relative z-10">{tab.label}</span>
@@ -44,8 +44,8 @@ export const Tabs: React.FC<TabsProps> = ({
               <span
                 className={`relative z-10 text-[10px] font-mono px-1.5 py-0.2 rounded-full ${
                   isActive
-                    ? 'bg-lab-accent-lime/15 text-lab-accent-lime'
-                    : 'bg-lab-surface text-lab-text-muted'
+                    ? 'bg-slate-900 text-white font-medium'
+                    : 'bg-slate-100 text-slate-600'
                 }`}
               >
                 {tab.count}
@@ -57,11 +57,11 @@ export const Tabs: React.FC<TabsProps> = ({
             {isActive && (
               <motion.span
                 layoutId={shouldReduceMotion ? undefined : `${idPrefix}-active-indicator`}
-                className="absolute bottom-0 left-0 right-0 h-0.5 bg-lab-accent-lime rounded-t"
+                className="absolute bottom-0 left-0 right-0 h-0.5 bg-slate-900 rounded-t"
                 transition={{
                   type: 'spring',
-                  stiffness: 400,
-                  damping: 35,
+                  stiffness: 420,
+                  damping: 38,
                 }}
               />
             )}

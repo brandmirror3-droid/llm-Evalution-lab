@@ -13,6 +13,7 @@ import {
   Layers,
   Plus,
   RefreshCw,
+  Terminal,
 } from 'lucide-react';
 
 export const SettingsPage: React.FC = () => {
@@ -75,7 +76,7 @@ export const SettingsPage: React.FC = () => {
   return (
     <PageContainer
       title="System Settings & Environment"
-      subtitle="Inspect lab runtime configuration, database connectivity, and provider telemetry."
+      subtitle="Inspect lab runtime configuration, storage subsystem connectivity, and provider telemetry."
       badge={<Badge variant="verified">Phase 1 Foundation</Badge>}
       actions={
         <Button
@@ -87,6 +88,7 @@ export const SettingsPage: React.FC = () => {
           Refresh Settings
         </Button>
       }
+      maxWidth="wide"
     >
       <div className="space-y-6">
         {/* Environment & Backend Service */}
@@ -95,30 +97,30 @@ export const SettingsPage: React.FC = () => {
             <CardHeader
               title="Backend & Runtime Environment"
               subtitle="Current host runtime parameters"
-              icon={<Server className="w-4 h-4 text-lab-text-secondary" />}
+              icon={<Server className="w-4 h-4 text-sky-600" />}
             />
             <CardContent className="space-y-3 text-xs">
-              <div className="flex justify-between py-1.5 border-b border-lab-borderSubtle">
-                <span className="text-lab-text-muted">Environment Mode</span>
-                <span className="font-mono text-lab-text-primary capitalize">
+              <div className="flex justify-between py-2 border-b border-slate-100">
+                <span className="text-slate-500">Environment Mode</span>
+                <span className="font-mono text-slate-800 capitalize font-medium">
                   {statusOverview?.environment || 'development'}
                 </span>
               </div>
-              <div className="flex justify-between py-1.5 border-b border-lab-borderSubtle">
-                <span className="text-lab-text-muted">Debug Mode</span>
-                <span className="font-mono text-lab-text-primary">
+              <div className="flex justify-between py-2 border-b border-slate-100">
+                <span className="text-slate-500">Debug Telemetry</span>
+                <span className="font-mono text-slate-800 font-medium">
                   {statusOverview?.debug ? 'true' : 'false'}
                 </span>
               </div>
-              <div className="flex justify-between py-1.5 border-b border-lab-borderSubtle">
-                <span className="text-lab-text-muted">API Version</span>
-                <span className="font-mono text-lab-text-primary">
+              <div className="flex justify-between py-2 border-b border-slate-100">
+                <span className="text-slate-500">API Gateway Version</span>
+                <span className="font-mono text-slate-800 font-medium">
                   v{statusOverview?.version || '0.1.0'} (/api/v1)
                 </span>
               </div>
-              <div className="flex justify-between py-1.5">
-                <span className="text-lab-text-muted">Roadmap Target</span>
-                <span className="font-mono text-lab-accent-lime">
+              <div className="flex justify-between py-2">
+                <span className="text-slate-500">Roadmap Phase</span>
+                <span className="font-mono text-sky-700 font-semibold">
                   {statusOverview?.phase || 'Phase 1: Lab Foundation'}
                 </span>
               </div>
@@ -130,42 +132,43 @@ export const SettingsPage: React.FC = () => {
             <CardHeader
               title="PostgreSQL Storage Subsystem"
               subtitle="Connection status and migration harness"
-              icon={<Database className="w-4 h-4 text-lab-text-secondary" />}
+              icon={<Database className="w-4 h-4 text-sky-600" />}
             />
             <CardContent className="space-y-3 text-xs">
-              <div className="flex justify-between items-center py-1.5 border-b border-lab-borderSubtle">
-                <span className="text-lab-text-muted">Connection Status</span>
-                <div className="flex items-center gap-1.5">
+              <div className="flex justify-between items-center py-2 border-b border-slate-100">
+                <span className="text-slate-500">Connection Status</span>
+                <div className="flex items-center gap-2">
                   <StatusIndicator status={db?.status || 'unknown'} size="sm" />
-                  <span className="font-medium text-lab-text-primary capitalize">
+                  <span className="font-medium text-slate-800 capitalize">
                     {db?.status?.replace('_', ' ') || 'Unknown'}
                   </span>
                 </div>
               </div>
-              <div className="flex justify-between py-1.5 border-b border-lab-borderSubtle">
-                <span className="text-lab-text-muted">Configured Target</span>
-                <span className="font-mono text-lab-text-muted truncate max-w-xs">
+              <div className="flex justify-between py-2 border-b border-slate-100">
+                <span className="text-slate-500">Configured Target</span>
+                <span className="font-mono text-slate-600 truncate max-w-xs">
                   {db?.target || 'None (Awaiting configuration)'}
                 </span>
               </div>
-              <div className="flex justify-between py-1.5">
-                <span className="text-lab-text-muted">Migration State</span>
-                <span className="font-mono text-lab-text-primary">
+              <div className="flex justify-between py-2">
+                <span className="text-slate-500">Migration State</span>
+                <span className="font-mono text-slate-800 font-medium">
                   Alembic 0001_initial_foundation
                 </span>
               </div>
 
               {db?.status !== 'operational' && (
-                <div className="mt-3 p-3 bg-lab-surface rounded border border-lab-borderSubtle font-mono text-[11px] text-lab-text-muted space-y-1">
-                  <div className="text-lab-text-secondary font-medium">
+                <div className="mt-3 p-3 bg-slate-50 rounded-lg border border-slate-200 font-mono text-[11px] text-slate-700 space-y-1">
+                  <div className="text-slate-900 font-semibold flex items-center gap-1.5">
+                    <Terminal className="w-3.5 h-3.5 text-slate-500" />
                     To connect local PostgreSQL:
                   </div>
-                  <div>1. Set DATABASE_URL in backend/.env:</div>
-                  <div className="text-lab-text-primary">
+                  <div className="text-slate-500">1. Set DATABASE_URL in backend/.env:</div>
+                  <div className="text-slate-800 font-mono select-all">
                     DATABASE_URL=postgresql+asyncpg://postgres:postgres@localhost:5432/llm_eval_lab
                   </div>
-                  <div>2. Run migrations:</div>
-                  <div className="text-lab-accent-lime">cd backend && alembic upgrade head</div>
+                  <div className="text-slate-500">2. Run migrations:</div>
+                  <div className="text-sky-700 font-semibold">cd backend && alembic upgrade head</div>
                 </div>
               )}
             </CardContent>
@@ -177,17 +180,17 @@ export const SettingsPage: React.FC = () => {
           <CardHeader
             title="Model Provider Credential Telemetry"
             subtitle="Provider environment keys for Phase 2 readiness (keys are never exposed to the frontend)"
-            icon={<KeyRound className="w-4 h-4 text-lab-text-secondary" />}
+            icon={<KeyRound className="w-4 h-4 text-sky-600" />}
           />
           <CardContent className="space-y-3">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {(statusOverview?.providers || []).map((provider) => (
                 <div
                   key={provider.provider}
-                  className="p-3 bg-lab-surface rounded-lg border border-lab-borderSubtle space-y-2 text-xs"
+                  className="p-3.5 bg-slate-50/70 rounded-lg border border-slate-200 space-y-2 text-xs"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="font-semibold text-lab-text-primary">
+                    <span className="font-bold text-slate-900">
                       {provider.label}
                     </span>
                     <Badge
@@ -197,7 +200,7 @@ export const SettingsPage: React.FC = () => {
                       {provider.configured ? 'Key Configured' : 'Not Set'}
                     </Badge>
                   </div>
-                  <p className="text-[11px] text-lab-text-muted">
+                  <p className="text-[11px] text-slate-500 leading-relaxed">
                     {provider.configured
                       ? 'Environment variable detected. Ready for Phase 2 integration.'
                       : 'Missing from .env. Configure before Phase 2 playground.'}
@@ -213,11 +216,11 @@ export const SettingsPage: React.FC = () => {
           <CardHeader
             title="Research Workspaces"
             subtitle="Phase 1 foundational workspace organization"
-            icon={<Layers className="w-4 h-4 text-lab-text-secondary" />}
+            icon={<Layers className="w-4 h-4 text-sky-600" />}
           />
           <CardContent className="space-y-4">
             {workspaceError && (
-              <div className="p-3 rounded bg-rose-950/40 border border-rose-800/40 text-xs text-rose-300">
+              <div className="p-3 rounded-lg bg-rose-50 border border-rose-200 text-xs text-rose-800">
                 {workspaceError}
               </div>
             )}
@@ -229,7 +232,7 @@ export const SettingsPage: React.FC = () => {
                 placeholder="New Workspace Name..."
                 value={newWorkspaceName}
                 onChange={(e) => setNewWorkspaceName(e.target.value)}
-                className="bg-lab-surface border border-lab-border rounded-md px-3 py-1.5 text-xs text-lab-text-primary focus:outline-none focus:border-lab-accent-lime flex-1"
+                className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-sky-500 flex-1 font-sans"
                 disabled={db?.status !== 'operational'}
               />
               <input
@@ -237,7 +240,7 @@ export const SettingsPage: React.FC = () => {
                 placeholder="Optional Description..."
                 value={newWorkspaceDesc}
                 onChange={(e) => setNewWorkspaceDesc(e.target.value)}
-                className="bg-lab-surface border border-lab-border rounded-md px-3 py-1.5 text-xs text-lab-text-primary focus:outline-none focus:border-lab-accent-lime flex-1"
+                className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-sky-500 flex-1 font-sans"
                 disabled={db?.status !== 'operational'}
               />
               <Button
@@ -253,30 +256,30 @@ export const SettingsPage: React.FC = () => {
             </form>
 
             {db?.status !== 'operational' ? (
-              <div className="p-4 rounded border border-dashed border-lab-border text-center text-xs text-lab-text-muted bg-lab-surface/30">
-                <Database className="w-5 h-5 mx-auto mb-2 text-lab-text-faint" />
-                <p className="font-medium text-lab-text-secondary">
-                  Database Offline or Unconfigured
+              <div className="p-6 rounded-xl border border-dashed border-slate-200 text-center text-xs text-slate-500 bg-slate-50/50">
+                <Database className="w-6 h-6 mx-auto mb-2 text-slate-400" />
+                <p className="font-semibold text-slate-800">
+                  Storage Subsystem Offline or Unconfigured
                 </p>
-                <p className="text-[11px] text-lab-text-muted mt-1 max-w-md mx-auto">
+                <p className="text-[11px] text-slate-500 mt-1 max-w-md mx-auto leading-relaxed">
                   Workspace persistence requires a connected PostgreSQL database. Once configured and migrated, workspaces created here will group future experiments and benchmarks.
                 </p>
               </div>
             ) : workspaces.length === 0 ? (
-              <div className="p-4 rounded border border-dashed border-lab-border text-center text-xs text-lab-text-muted">
+              <div className="p-6 rounded-xl border border-dashed border-slate-200 text-center text-xs text-slate-500">
                 No custom workspaces created yet. Use the form above to add your first research workspace.
               </div>
             ) : (
-              <div className="divide-y divide-lab-borderSubtle text-xs">
+              <div className="divide-y divide-slate-100 text-xs">
                 {workspaces.map((ws) => (
-                  <div key={ws.id} className="py-2.5 flex items-center justify-between">
+                  <div key={ws.id} className="py-3 flex items-center justify-between">
                     <div>
-                      <div className="font-semibold text-lab-text-primary">{ws.name}</div>
+                      <div className="font-semibold text-slate-900">{ws.name}</div>
                       {ws.description && (
-                        <p className="text-lab-text-muted text-[11px] mt-0.5">{ws.description}</p>
+                        <p className="text-slate-500 text-[11px] mt-0.5">{ws.description}</p>
                       )}
                     </div>
-                    <span className="font-mono text-[10px] text-lab-text-faint">{ws.slug}</span>
+                    <span className="font-mono text-[11px] text-slate-400">{ws.slug}</span>
                   </div>
                 ))}
               </div>

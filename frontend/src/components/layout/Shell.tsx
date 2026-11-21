@@ -12,7 +12,7 @@ export const Shell: React.FC = () => {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-lab-bg text-lab-text-primary">
+    <div className="flex h-screen w-screen overflow-hidden bg-slate-50 text-slate-900">
       {/* Sidebar navigation */}
       <Sidebar
         isCollapsed={isCollapsed}
@@ -24,7 +24,7 @@ export const Shell: React.FC = () => {
       {/* Main View Area */}
       <div className="flex flex-col flex-1 min-w-0 h-full overflow-hidden">
         <Header onOpenMobileSidebar={() => setIsMobileOpen(true)} />
-        <main className="flex-1 overflow-y-auto">
+        <main className="flex-1 overflow-y-auto bg-slate-50/70">
           <AnimatePresence mode="wait">
             <motion.div
               key={location.pathname}

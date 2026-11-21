@@ -40,7 +40,7 @@ interface NavSection {
 
 const NAVIGATION_SECTIONS: NavSection[] = [
   {
-    title: 'LAB',
+    title: 'WORKSPACE',
     items: [
       {
         name: 'Overview',
@@ -92,7 +92,7 @@ const NAVIGATION_SECTIONS: NavSection[] = [
     ],
   },
   {
-    title: 'INTELLIGENCE',
+    title: 'ANALYSIS & INTELLIGENCE',
     items: [
       {
         name: 'Failure Analysis',
@@ -141,20 +141,20 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const shouldReduceMotion = useReducedMotion();
 
   const sidebarContent = (
-    <div className="flex flex-col h-full bg-lab-surface border-r border-lab-border text-lab-text-secondary select-none">
+    <div className="flex flex-col h-full bg-white border-r border-slate-200 text-slate-600 select-none">
       {/* Brand Header */}
-      <div className="h-14 px-4 border-b border-lab-borderSubtle flex items-center justify-between shrink-0">
+      <div className="h-14 px-4 border-b border-slate-100 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-2.5 overflow-hidden">
-          <div className="w-7 h-7 rounded-lg bg-lab-card border border-lab-border flex items-center justify-center text-lab-accent-lime shrink-0 shadow-subtle group">
-            <FlaskRound className="w-4 h-4 transition-transform duration-200 group-hover:rotate-12" />
+          <div className="w-7 h-7 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-white shrink-0 shadow-subtle">
+            <FlaskRound className="w-4 h-4 text-sky-400" />
           </div>
           {!isCollapsed && (
             <div className="flex flex-col min-w-0">
-              <span className="text-xs font-bold text-lab-text-primary tracking-tight truncate">
+              <span className="text-xs font-bold text-slate-900 tracking-tight truncate">
                 EVALUATION LAB
               </span>
-              <span className="text-[10px] font-mono text-lab-accent-lime uppercase tracking-wider">
-                Phase 1 Active
+              <span className="text-[10px] font-mono text-sky-600 font-semibold tracking-wider">
+                Research Workstation
               </span>
             </div>
           )}
@@ -163,7 +163,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {/* Desktop Collapse Toggle */}
         <button
           onClick={onToggleCollapse}
-          className="hidden md:flex p-1.5 rounded-md hover:bg-lab-card text-lab-text-muted hover:text-lab-text-primary transition-all duration-150 ease-apple"
+          className="hidden md:flex p-1.5 rounded-md hover:bg-slate-100 text-slate-400 hover:text-slate-700 transition-colors"
           title={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
         >
           {isCollapsed ? (
@@ -176,18 +176,18 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {/* Mobile Close Button */}
         <button
           onClick={onCloseMobile}
-          className="md:hidden p-1.5 rounded-md hover:bg-lab-card text-lab-text-muted hover:text-lab-text-primary transition-colors"
+          className="md:hidden p-1.5 rounded-md hover:bg-slate-100 text-slate-400 hover:text-slate-700 transition-colors"
         >
           <X className="w-4 h-4" />
         </button>
       </div>
 
       {/* Navigation Sections */}
-      <div className="flex-1 overflow-y-auto px-2 py-3 space-y-5">
+      <div className="flex-1 overflow-y-auto px-2.5 py-3 space-y-5">
         {NAVIGATION_SECTIONS.map((section) => (
           <div key={section.title} className="space-y-1">
             {!isCollapsed && (
-              <h4 className="px-2.5 py-1 text-[10px] font-mono font-semibold text-lab-text-faint tracking-wider uppercase transition-opacity duration-200">
+              <h4 className="px-2.5 py-1 text-[10px] font-semibold text-slate-400 tracking-wider uppercase">
                 {section.title}
               </h4>
             )}
@@ -204,31 +204,18 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     <NavLink
                       to={item.path}
                       onClick={onCloseMobile}
-                      className={`group relative flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-xs font-medium transition-colors duration-150 ease-apple ${
+                      className={`group relative flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-xs font-medium transition-colors duration-150 ${
                         isActive
-                          ? 'text-lab-text-primary'
-                          : 'text-lab-text-secondary hover:text-lab-text-primary hover:bg-lab-card/60'
+                          ? 'text-slate-900 font-semibold bg-slate-100'
+                          : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
                       }`}
                       title={isCollapsed ? `${item.name} (Phase ${item.phase})` : undefined}
                     >
-                      {/* Smooth Gliding Active Indicator Pill */}
-                      {isActive && (
-                        <motion.span
-                          layoutId={shouldReduceMotion ? undefined : 'sidebarActivePill'}
-                          className="absolute inset-0 bg-lab-card border border-lab-border rounded-lg shadow-subtle z-0"
-                          transition={{
-                            type: 'spring',
-                            stiffness: 420,
-                            damping: 38,
-                          }}
-                        />
-                      )}
-
-                      {/* Active green accent left bar */}
+                      {/* Left accent bar for active item */}
                       {isActive && (
                         <motion.span
                           layoutId={shouldReduceMotion ? undefined : 'sidebarActiveBar'}
-                          className="absolute left-0 top-2 bottom-2 w-0.5 bg-lab-accent-lime rounded-r z-10"
+                          className="absolute left-0 top-1.5 bottom-1.5 w-1 bg-slate-900 rounded-r z-10"
                           transition={{
                             type: 'spring',
                             stiffness: 420,
@@ -238,18 +225,18 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       )}
 
                       <Icon
-                        className={`w-4 h-4 shrink-0 relative z-10 transition-transform duration-150 ease-apple group-hover:scale-105 ${
+                        className={`w-4 h-4 shrink-0 transition-colors ${
                           isActive
-                            ? 'text-lab-accent-lime'
-                            : 'text-lab-text-muted group-hover:text-lab-text-secondary'
+                            ? 'text-sky-600'
+                            : 'text-slate-400 group-hover:text-slate-600'
                         }`}
                       />
 
                       {!isCollapsed && (
-                        <div className="flex items-center justify-between w-full min-w-0 relative z-10">
+                        <div className="flex items-center justify-between w-full min-w-0">
                           <span className="truncate">{item.name}</span>
                           {!item.isAvailableInPhase1 && (
-                            <span className="text-[9px] font-mono font-medium px-1.5 py-0.2 rounded bg-neutral-900 border border-neutral-800 text-neutral-400 group-hover:text-neutral-300 transition-colors">
+                            <span className="text-[9px] font-mono font-medium px-1.5 py-0.2 rounded bg-slate-100 border border-slate-200/60 text-slate-500 group-hover:text-slate-700">
                               P{item.phase}
                             </span>
                           )}
@@ -266,11 +253,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
       {/* Footer Info */}
       {!isCollapsed && (
-        <div className="p-3 border-t border-lab-borderSubtle bg-lab-bg/40 text-[11px] font-mono text-lab-text-muted flex items-center justify-between transition-opacity duration-200">
-          <span>v0.1.0-alpha</span>
-          <span className="text-emerald-400/90 flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            Lab Core
+        <div className="p-3 border-t border-slate-100 bg-slate-50/60 text-[11px] text-slate-500 flex items-center justify-between">
+          <span className="font-mono text-slate-400">v0.1.0-alpha</span>
+          <span className="text-emerald-700 font-medium flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+            Core Ready
           </span>
         </div>
       )}
@@ -279,16 +266,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   return (
     <>
-      {/* Desktop Persistent Sidebar with smooth width transition */}
+      {/* Desktop Persistent Sidebar (expanded by default) */}
       <aside
-        className={`hidden md:block transition-all duration-300 ease-apple shrink-0 ${
+        className={`hidden md:block transition-all duration-200 ease-apple shrink-0 ${
           isCollapsed ? 'w-16' : 'w-56'
         }`}
       >
         {sidebarContent}
       </aside>
 
-      {/* Mobile Drawer with smooth fade and slide */}
+      {/* Mobile Drawer */}
       <AnimatePresence>
         {isMobileOpen && (
           <div className="fixed inset-0 z-50 md:hidden flex">
@@ -296,8 +283,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="fixed inset-0 bg-black/75 backdrop-blur-sm"
+              transition={{ duration: 0.15 }}
+              className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm"
               onClick={onCloseMobile}
             />
             <motion.div
@@ -305,7 +292,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={{ type: 'spring', stiffness: 350, damping: 35 }}
-              className="relative w-64 max-w-[80vw] h-full z-10 shadow-cardHover"
+              className="relative w-64 max-w-[80vw] h-full z-10 shadow-modal"
             >
               {sidebarContent}
             </motion.div>
