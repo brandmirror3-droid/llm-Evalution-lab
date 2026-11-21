@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { Sidebar } from './Sidebar';
 import { Header } from './Header';
+import { pageVariants } from '../../utils/motion';
 
 export const Shell: React.FC = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const location = useLocation();
+  const shouldReduceMotion = useReducedMotion();
 
   return (
     <div className="flex h-screen w-screen overflow-hidden bg-lab-bg text-lab-text-primary">
@@ -21,7 +25,18 @@ export const Shell: React.FC = () => {
       <div className="flex flex-col flex-1 min-w-0 h-full overflow-hidden">
         <Header onOpenMobileSidebar={() => setIsMobileOpen(true)} />
         <main className="flex-1 overflow-y-auto">
-          <Outlet />
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={location.pathname}
+              variants={shouldReduceMotion ? undefined : pageVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              className="min-h-full"
+            >
+              <Outlet />
+            </motion.div>
+          </AnimatePresence>
         </main>
       </div>
     </div>

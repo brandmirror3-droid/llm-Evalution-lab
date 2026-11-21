@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 
 export interface TabItem {
   id: string;
@@ -12,6 +13,7 @@ interface TabsProps {
   activeTab: string;
   onChange: (tabId: string) => void;
   className?: string;
+  idPrefix?: string;
 }
 
 export const Tabs: React.FC<TabsProps> = ({
@@ -19,7 +21,10 @@ export const Tabs: React.FC<TabsProps> = ({
   activeTab,
   onChange,
   className = '',
+  idPrefix = 'tab',
 }) => {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <div className={`flex items-center gap-1 border-b border-lab-borderSubtle ${className}`}>
       {tabs.map((tab) => {
@@ -28,16 +33,16 @@ export const Tabs: React.FC<TabsProps> = ({
           <button
             key={tab.id}
             onClick={() => onChange(tab.id)}
-            className={`flex items-center gap-2 px-3 py-2 text-xs font-medium border-b-2 -mb-px transition-colors ${
+            className={`relative flex items-center gap-2 px-3.5 py-2.5 text-xs font-medium transition-colors select-none ${
               isActive
-                ? 'border-lab-accent-lime text-lab-text-primary'
-                : 'border-transparent text-lab-text-muted hover:text-lab-text-secondary hover:border-neutral-700'
+                ? 'text-lab-text-primary'
+                : 'text-lab-text-muted hover:text-lab-text-secondary'
             }`}
           >
-            <span>{tab.label}</span>
+            <span className="relative z-10">{tab.label}</span>
             {tab.count !== undefined && tab.count !== null && (
               <span
-                className={`text-[10px] font-mono px-1.5 py-0.2 rounded-full ${
+                className={`relative z-10 text-[10px] font-mono px-1.5 py-0.2 rounded-full ${
                   isActive
                     ? 'bg-lab-accent-lime/15 text-lab-accent-lime'
                     : 'bg-lab-surface text-lab-text-muted'
@@ -46,7 +51,20 @@ export const Tabs: React.FC<TabsProps> = ({
                 {tab.count}
               </span>
             )}
-            {tab.badge}
+            {tab.badge && <span className="relative z-10">{tab.badge}</span>}
+
+            {/* Sliding active border indicator */}
+            {isActive && (
+              <motion.span
+                layoutId={shouldReduceMotion ? undefined : `${idPrefix}-active-indicator`}
+                className="absolute bottom-0 left-0 right-0 h-0.5 bg-lab-accent-lime rounded-t"
+                transition={{
+                  type: 'spring',
+                  stiffness: 400,
+                  damping: 35,
+                }}
+              />
+            )}
           </button>
         );
       })}

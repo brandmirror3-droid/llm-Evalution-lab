@@ -43,7 +43,7 @@ describe('LLM Evaluation Lab Shell & Navigation', () => {
     render(<App />);
     expect(await screen.findByText('EVALUATION LAB')).toBeInTheDocument();
     expect(screen.getAllByText('LAB').length).toBeGreaterThanOrEqual(1);
-    expect(screen.getByText('EVALUATION')).toBeInTheDocument();
+    expect(screen.getAllByText('EVALUATION').length).toBeGreaterThanOrEqual(1);
     expect(screen.getByText('INTELLIGENCE')).toBeInTheDocument();
     expect(screen.getByText('SYSTEM')).toBeInTheDocument();
   });

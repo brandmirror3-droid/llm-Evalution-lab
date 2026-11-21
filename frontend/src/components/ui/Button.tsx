@@ -21,11 +21,11 @@ export const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const baseStyles =
-    'inline-flex items-center justify-center font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-lab-accent-lime disabled:pointer-events-none disabled:opacity-40 rounded-md';
+    'relative group inline-flex items-center justify-center font-medium transition-all duration-150 ease-apple focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-lab-accent-lime disabled:pointer-events-none disabled:opacity-40 rounded-lg active:scale-[0.98] select-none';
 
   const variants: Record<ButtonVariant, string> = {
     primary:
-      'bg-lab-text-primary text-lab-bg hover:bg-white active:bg-neutral-200 border border-transparent shadow-subtle',
+      'bg-lab-text-primary text-lab-bg hover:bg-white active:bg-neutral-200 border border-transparent shadow-subtle hover:shadow-glowLime',
     secondary:
       'bg-lab-card hover:bg-lab-cardHover text-lab-text-primary border border-lab-border hover:border-neutral-700 active:bg-lab-surface',
     outline:
@@ -37,10 +37,10 @@ export const Button: React.FC<ButtonProps> = ({
   };
 
   const sizes: Record<ButtonSize, string> = {
-    xs: 'text-xs px-2 py-1 gap-1.5 h-6',
-    sm: 'text-xs px-2.5 py-1.5 gap-2 h-8',
+    xs: 'text-xs px-2.5 py-1 gap-1.5 h-7',
+    sm: 'text-xs px-3 py-1.5 gap-2 h-8',
     md: 'text-sm px-3.5 py-2 gap-2 h-9',
-    lg: 'text-sm px-4 py-2.5 gap-2.5 h-10',
+    lg: 'text-sm px-4.5 py-2.5 gap-2.5 h-10',
   };
 
   return (
@@ -71,7 +71,11 @@ export const Button: React.FC<ButtonProps> = ({
           />
         </svg>
       ) : (
-        icon && <span className="shrink-0">{icon}</span>
+        icon && (
+          <span className="shrink-0 transition-transform duration-150 ease-apple group-hover:scale-105">
+            {icon}
+          </span>
+        )
       )}
       <span>{children}</span>
     </button>

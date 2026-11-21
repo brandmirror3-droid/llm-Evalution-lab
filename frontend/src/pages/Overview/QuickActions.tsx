@@ -79,9 +79,9 @@ export const QuickActions: React.FC = () => {
               onClick={() => setSelectedAction(action)}
               className="group transition-all"
             >
-              <CardContent className="space-y-3 p-4">
+              <CardContent className="space-y-3 p-4 sm:p-5">
                 <div className="flex items-center justify-between">
-                  <div className="w-8 h-8 rounded-md bg-lab-surface border border-lab-border flex items-center justify-center text-lab-text-secondary group-hover:text-lab-accent-lime transition-colors">
+                  <div className="w-8 h-8 rounded-lg bg-lab-surface border border-lab-border flex items-center justify-center text-lab-text-secondary group-hover:text-lab-accent-lime group-hover:scale-105 group-hover:border-lab-accent-lime/40 transition-all duration-200 ease-apple">
                     <Icon className="w-4 h-4" />
                   </div>
                   <Badge variant="not_implemented" size="xs">
@@ -90,17 +90,17 @@ export const QuickActions: React.FC = () => {
                 </div>
 
                 <div>
-                  <h4 className="text-xs font-semibold text-lab-text-primary group-hover:text-white transition-colors">
+                  <h4 className="text-xs font-semibold text-lab-text-primary group-hover:text-white transition-colors duration-150">
                     {action.title}
                   </h4>
-                  <p className="text-[11px] text-lab-text-muted mt-1 leading-snug line-clamp-2">
+                  <p className="text-[11px] text-lab-text-muted mt-1 leading-relaxed line-clamp-2">
                     {action.description}
                   </p>
                 </div>
 
-                <div className="pt-1 flex items-center gap-1 text-[11px] font-mono text-lab-text-faint group-hover:text-lab-accent-lime transition-colors">
+                <div className="pt-1 flex items-center gap-1.5 text-[11px] font-mono text-lab-text-faint group-hover:text-lab-accent-lime transition-colors duration-150">
                   <span>View roadmap specs</span>
-                  <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                  <ArrowRight className="w-3 h-3 transition-transform duration-200 ease-apple group-hover:translate-x-1" />
                 </div>
               </CardContent>
             </Card>
@@ -117,7 +117,7 @@ export const QuickActions: React.FC = () => {
           subtitle={`Planned entry point for Roadmap Phase ${selectedAction.phaseNumber}.`}
         >
           <div className="space-y-4 text-xs text-lab-text-secondary">
-            <div className="p-3 bg-neutral-900 rounded-lg border border-neutral-800 space-y-1.5">
+            <div className="p-3.5 bg-neutral-900 rounded-xl border border-neutral-800 space-y-2">
               <div className="flex items-center justify-between">
                 <span className="font-semibold text-lab-text-primary">
                   {selectedAction.phaseTitle}
@@ -131,7 +131,7 @@ export const QuickActions: React.FC = () => {
               </p>
             </div>
 
-            <div className="flex items-start gap-2 text-lab-text-muted text-[11px] leading-relaxed">
+            <div className="flex items-start gap-2.5 text-lab-text-muted text-[11px] leading-relaxed p-2.5 bg-lab-surface/50 rounded-lg border border-lab-borderSubtle">
               <Info className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
               <span>
                 In adherence to Phase 1 engineering guidelines, mock wizards and fake execution buttons are disabled. Real model execution will be implemented in Phase 2.

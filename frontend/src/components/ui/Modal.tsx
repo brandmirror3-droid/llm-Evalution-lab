@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { X } from 'lucide-react';
+import { modalBackdropVariants, modalSurfaceVariants } from '../../utils/motion';
 
 interface ModalProps {
   isOpen: boolean;
@@ -20,6 +22,8 @@ export const Modal: React.FC<ModalProps> = ({
   footer,
   maxWidth = 'md',
 }) => {
+  const shouldReduceMotion = useReducedMotion();
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -34,8 +38,6 @@ export const Modal: React.FC<ModalProps> = ({
     };
   }, [isOpen, onClose]);
 
-  if (!isOpen) return null;
-
   const widthClasses = {
     sm: 'max-w-sm',
     md: 'max-w-md',
@@ -44,47 +46,59 @@ export const Modal: React.FC<ModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Backdrop */}
-      <div
-        className="fixed inset-0 bg-black/70 backdrop-blur-sm transition-opacity"
-        onClick={onClose}
-      />
-
-      {/* Dialog box */}
-      <div
-        className={`relative w-full ${widthClasses[maxWidth]} bg-lab-card border border-lab-border rounded-xl shadow-card overflow-hidden z-10 animate-in fade-in zoom-in-95 duration-150`}
-        role="dialog"
-        aria-modal="true"
-      >
-        <div className="p-5 border-b border-lab-borderSubtle flex items-start justify-between gap-4">
-          <div>
-            <h3 className="text-base font-semibold text-lab-text-primary tracking-tight">
-              {title}
-            </h3>
-            {subtitle && (
-              <p className="text-xs text-lab-text-muted mt-1 leading-relaxed">
-                {subtitle}
-              </p>
-            )}
-          </div>
-          <button
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          {/* Backdrop */}
+          <motion.div
+            variants={shouldReduceMotion ? undefined : modalBackdropVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            className="fixed inset-0 bg-black/75 backdrop-blur-sm"
             onClick={onClose}
-            className="text-lab-text-muted hover:text-lab-text-primary p-1 rounded-md hover:bg-lab-surface transition-colors"
-            aria-label="Close modal"
+          />
+
+          {/* Dialog Surface */}
+          <motion.div
+            variants={shouldReduceMotion ? undefined : modalSurfaceVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            className={`relative w-full ${widthClasses[maxWidth]} bg-lab-card border border-lab-border rounded-xl shadow-cardHover overflow-hidden z-10`}
+            role="dialog"
+            aria-modal="true"
           >
-            <X className="w-4 h-4" />
-          </button>
+            <div className="p-5 border-b border-lab-borderSubtle flex items-start justify-between gap-4">
+              <div>
+                <h3 className="text-base font-semibold text-lab-text-primary tracking-tight">
+                  {title}
+                </h3>
+                {subtitle && (
+                  <p className="text-xs text-lab-text-muted mt-1 leading-relaxed">
+                    {subtitle}
+                  </p>
+                )}
+              </div>
+              <button
+                onClick={onClose}
+                className="text-lab-text-muted hover:text-lab-text-primary p-1.5 rounded-lg hover:bg-lab-surface transition-colors"
+                aria-label="Close modal"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div className="p-5 max-h-[75vh] overflow-y-auto">{children}</div>
+
+            {footer && (
+              <div className="px-5 py-3.5 bg-lab-surface/50 border-t border-lab-borderSubtle flex items-center justify-end gap-2.5">
+                {footer}
+              </div>
+            )}
+          </motion.div>
         </div>
-
-        <div className="p-5 max-h-[75vh] overflow-y-auto">{children}</div>
-
-        {footer && (
-          <div className="px-5 py-3.5 bg-lab-surface/50 border-t border-lab-borderSubtle flex items-center justify-end gap-2.5">
-            {footer}
-          </div>
-        )}
-      </div>
-    </div>
+      )}
+    </AnimatePresence>
   );
 };

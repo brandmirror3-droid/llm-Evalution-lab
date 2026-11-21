@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { PageContainer } from '../../components/layout/PageContainer';
 import { WelcomeBanner } from './WelcomeBanner';
+import { SignatureLabVisualization } from '../../components/visualization/SignatureLabVisualization';
 import { LabStatusGrid } from './LabStatusGrid';
 import { QuickActions } from './QuickActions';
 import { ResearchWorkspace } from './ResearchWorkspace';
@@ -36,10 +37,10 @@ export const OverviewPage: React.FC = () => {
 
   return (
     <PageContainer maxWidth="standard">
-      <div className="space-y-8">
+      <div className="space-y-8 pb-10">
         {/* Error notification if backend is offline or status fails */}
         {error && (
-          <div className="p-4 rounded-lg bg-rose-950/40 border border-rose-800/50 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-xs text-rose-300">
+          <div className="p-4 rounded-xl bg-rose-950/40 border border-rose-800/50 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-xs text-rose-300">
             <div className="flex items-center gap-2.5">
               <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
               <span>{error}</span>
@@ -55,10 +56,13 @@ export const OverviewPage: React.FC = () => {
           </div>
         )}
 
-        {/* Section A: Welcome / Lab Identity */}
+        {/* Section A: Living Hero Banner */}
         <WelcomeBanner />
 
-        {/* Section B: Lab Status Subsystems */}
+        {/* Section B: Signature Lab Visualization "The Intelligence Pulse" */}
+        <SignatureLabVisualization />
+
+        {/* Section C: Lab Status Subsystems */}
         <LabStatusGrid
           subsystems={statusOverview?.subsystems || {}}
           providers={statusOverview?.providers || []}
@@ -66,13 +70,13 @@ export const OverviewPage: React.FC = () => {
           onRefresh={loadStatus}
         />
 
-        {/* Section C: Quick Actions */}
+        {/* Section D: Quick Actions */}
         <QuickActions />
 
-        {/* Section D: Research Workspace (Honest Empty State) */}
+        {/* Section E: Research Workspace (Honest Empty State) */}
         <ResearchWorkspace />
 
-        {/* Section E: Platform Readiness Checklist */}
+        {/* Section F: Platform Readiness Checklist */}
         <PlatformReadiness items={statusOverview?.readiness_checklist || []} />
       </div>
     </PageContainer>

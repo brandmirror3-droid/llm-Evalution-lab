@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, CardContent } from '../../components/ui/Card';
 import { Badge, BadgeVariant } from '../../components/ui/Badge';
 import { StatusIndicator } from '../../components/ui/StatusIndicator';
+import { Skeleton } from '../../components/ui/Skeleton';
 import { SubsystemHealth, ProviderConfigStatus } from '../../types';
 import {
   Server,
@@ -66,6 +67,23 @@ export const LabStatusGrid: React.FC<LabStatusGridProps> = ({
     }
   };
 
+  if (isLoading && Object.keys(subsystems).length === 0) {
+    return (
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <Skeleton className="w-40 h-4" />
+          <Skeleton className="w-16 h-4" />
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <Skeleton variant="card" />
+          <Skeleton variant="card" />
+          <Skeleton variant="card" />
+          <Skeleton variant="card" />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
@@ -75,21 +93,21 @@ export const LabStatusGrid: React.FC<LabStatusGridProps> = ({
         <button
           onClick={onRefresh}
           disabled={isLoading}
-          className="flex items-center gap-1.5 text-xs text-lab-text-muted hover:text-lab-text-primary transition-colors disabled:opacity-40"
+          className="group flex items-center gap-1.5 text-xs text-lab-text-muted hover:text-lab-text-primary transition-colors disabled:opacity-40"
           title="Re-probe subsystems"
         >
-          <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />
+          <RefreshCw className={`w-3.5 h-3.5 transition-transform duration-300 ease-apple ${isLoading ? 'animate-spin' : 'group-hover:rotate-180'}`} />
           <span className="font-mono text-[11px]">Re-probe</span>
         </button>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* 1. Runtime Environment */}
-        <Card>
+        <Card hoverable>
           <CardContent className="space-y-2.5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 text-lab-text-secondary">
-                <Server className="w-4 h-4 text-lab-text-muted" />
+                <Server className="w-4 h-4 text-lab-text-muted group-hover:text-lab-accent-lime transition-colors" />
                 <span className="text-xs font-medium">Environment</span>
               </div>
               <Badge variant={mapBadgeVariant(envSubsystem?.status)} size="xs">
@@ -108,11 +126,11 @@ export const LabStatusGrid: React.FC<LabStatusGridProps> = ({
         </Card>
 
         {/* 2. Database Status */}
-        <Card>
+        <Card hoverable>
           <CardContent className="space-y-2.5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 text-lab-text-secondary">
-                <Database className="w-4 h-4 text-lab-text-muted" />
+                <Database className="w-4 h-4 text-lab-text-muted group-hover:text-lab-accent-lime transition-colors" />
                 <span className="text-xs font-medium">Database</span>
               </div>
               <Badge variant={mapBadgeVariant(dbSubsystem?.status)} size="xs">
@@ -121,7 +139,7 @@ export const LabStatusGrid: React.FC<LabStatusGridProps> = ({
             </div>
             <div>
               <div className="text-sm font-semibold text-lab-text-primary flex items-center gap-1.5">
-                <StatusIndicator status={dbSubsystem?.status || 'unknown'} size="sm" />
+                <StatusIndicator status={dbSubsystem?.status || 'unknown'} size="sm" withPulse={dbSubsystem?.status === 'operational'} />
                 <span>PostgreSQL</span>
               </div>
               <p className="text-[11px] text-lab-text-muted mt-1 leading-tight line-clamp-2">
@@ -132,11 +150,11 @@ export const LabStatusGrid: React.FC<LabStatusGridProps> = ({
         </Card>
 
         {/* 3. Model Provider Telemetry */}
-        <Card>
+        <Card hoverable>
           <CardContent className="space-y-2.5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 text-lab-text-secondary">
-                <Cpu className="w-4 h-4 text-lab-text-muted" />
+                <Cpu className="w-4 h-4 text-lab-text-muted group-hover:text-lab-accent-lime transition-colors" />
                 <span className="text-xs font-medium">Model Providers</span>
               </div>
               <Badge variant="not_implemented" size="xs">
@@ -151,7 +169,7 @@ export const LabStatusGrid: React.FC<LabStatusGridProps> = ({
                 {providers.map((p) => (
                   <span
                     key={p.provider}
-                    className={`text-[10px] font-mono px-1.5 py-0.5 rounded border ${
+                    className={`text-[10px] font-mono px-1.5 py-0.5 rounded border transition-colors ${
                       p.configured
                         ? 'bg-emerald-950/40 text-emerald-400 border-emerald-800/40'
                         : 'bg-lab-surface text-lab-text-faint border-lab-borderSubtle'
@@ -167,11 +185,11 @@ export const LabStatusGrid: React.FC<LabStatusGridProps> = ({
         </Card>
 
         {/* 4. Experiment Infrastructure */}
-        <Card>
+        <Card hoverable>
           <CardContent className="space-y-2.5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 text-lab-text-secondary">
-                <Layers className="w-4 h-4 text-lab-text-muted" />
+                <Layers className="w-4 h-4 text-lab-text-muted group-hover:text-lab-accent-lime transition-colors" />
                 <span className="text-xs font-medium">Execution Engine</span>
               </div>
               <Badge variant={mapBadgeVariant(expSubsystem?.status)} size="xs">

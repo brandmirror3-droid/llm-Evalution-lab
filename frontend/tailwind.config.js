@@ -52,6 +52,31 @@ export default {
       boxShadow: {
         subtle: "0 1px 2px 0 rgba(0, 0, 0, 0.4)",
         card: "0 4px 20px -2px rgba(0, 0, 0, 0.5)",
+        cardHover: "0 10px 30px -5px rgba(0, 0, 0, 0.7)",
+        glowLime: "0 0 20px -5px rgba(163, 230, 53, 0.18)",
+      },
+      transitionTimingFunction: {
+        apple: "cubic-bezier(0.16, 1, 0.3, 1)",
+        linearEase: "cubic-bezier(0.25, 0.1, 0.25, 1)",
+      },
+      animation: {
+        shimmer: "shimmer 2s infinite linear",
+        pulseSubtle: "pulseSubtle 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        breathe: "breathe 6s ease-in-out infinite",
+      },
+      keyframes: {
+        shimmer: {
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(100%)" },
+        },
+        pulseSubtle: {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0.55" },
+        },
+        breathe: {
+          "0%, 100%": { opacity: "0.4", transform: "scale(1)" },
+          "50%": { opacity: "0.8", transform: "scale(1.02)" },
+        },
       },
     },
   },
