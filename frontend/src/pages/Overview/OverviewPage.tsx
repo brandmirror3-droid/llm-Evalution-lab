@@ -7,16 +7,15 @@ import { ResearchWorkspace } from './ResearchWorkspace';
 import { ContextualTelemetryPanel } from './ContextualTelemetryPanel';
 import { getLabStatus } from '../../api/system';
 import { LabStatusOverview } from '../../types';
-import { AlertCircle, RefreshCw } from 'lucide-react';
+import { AlertCircle, RefreshCw, Layers, FlaskConical, CheckSquare, Activity } from 'lucide-react';
 import { Button } from '../../components/ui/Button';
 import { Modal } from '../../components/ui/Modal';
-import { Badge } from '../../components/ui/Badge';
 
 export const OverviewPage: React.FC = () => {
   const [statusOverview, setStatusOverview] = useState<LabStatusOverview | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [isRoadmapModalOpen, setIsRoadmapModalOpen] = useState(false);
+  const [isExperimentModalOpen, setIsExperimentModalOpen] = useState(false);
 
   const loadStatus = useCallback(async () => {
     setIsLoading(true);
@@ -37,14 +36,16 @@ export const OverviewPage: React.FC = () => {
     loadStatus();
   }, [loadStatus]);
 
+  const isOnline = !error && !!statusOverview;
+
   return (
-    <PageContainer maxWidth="wide" className="pb-12">
+    <PageContainer maxWidth="wide" className="space-y-5 pb-8">
       {/* Offline/Error notification if backend is unreachable */}
       {error && (
-        <div className="mb-6 p-4 rounded-xl bg-rose-50 border border-rose-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-xs text-rose-700">
-          <div className="flex items-center gap-2.5">
+        <div className="p-3 rounded-md bg-rose-50 border border-rose-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5 text-xs text-rose-700">
+          <div className="flex items-center gap-2">
             <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
-            <span>{error}</span>
+            <span>API Gateway offline: {error}</span>
           </div>
           <Button
             variant="outline"
@@ -52,30 +53,76 @@ export const OverviewPage: React.FC = () => {
             onClick={loadStatus}
             icon={<RefreshCw className="w-3 h-3" />}
           >
-            Retry Telemetry Probe
+            Retry Connection
           </Button>
         </div>
       )}
 
-      {/* Asymmetric Research Workspace Layout: 2 Columns */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        {/* Main Research Column (~68% width on large screens) */}
-        <div className="lg:col-span-8 space-y-6">
-          {/* 1. Welcome & Empirical Mission */}
-          <WelcomeBanner onOpenRoadmap={() => setIsRoadmapModalOpen(true)} />
+      {/* 1. Compact Header */}
+      <WelcomeBanner onNewExperiment={() => setIsExperimentModalOpen(true)} />
 
-          {/* 2. Visual Workflow Language: Input -> Model -> Evaluator -> Analysis -> Result */}
-          <VisualWorkflowPipeline />
-
-          {/* 3. Scientific Module Launchers */}
-          <QuickActions />
-
-          {/* 4. Research Workspace & Activity */}
-          <ResearchWorkspace />
+      {/* 2. Top Metric Strip (Inspired by Rhesis AI & VerifyWise) */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="p-3 rounded-lg border border-slate-200 bg-white space-y-1">
+          <div className="flex items-center gap-1.5 text-slate-400 text-[11px] font-medium">
+            <Layers className="w-3.5 h-3.5" />
+            <span>Active Project</span>
+          </div>
+          <div className="text-sm font-semibold text-slate-900">
+            Default Lab <span className="text-[10px] text-slate-400 font-mono">v0.1.0</span>
+          </div>
         </div>
 
-        {/* Contextual Information Column (~32% width on large screens) */}
-        <div className="lg:col-span-4 space-y-6">
+        <div className="p-3 rounded-lg border border-slate-200 bg-white space-y-1">
+          <div className="flex items-center gap-1.5 text-slate-400 text-[11px] font-medium">
+            <FlaskConical className="w-3.5 h-3.5" />
+            <span>Experiments</span>
+          </div>
+          <div className="text-sm font-semibold text-slate-900">
+            0 <span className="text-[11px] text-slate-400 font-normal">runs recorded</span>
+          </div>
+        </div>
+
+        <div className="p-3 rounded-lg border border-slate-200 bg-white space-y-1">
+          <div className="flex items-center gap-1.5 text-slate-400 text-[11px] font-medium">
+            <CheckSquare className="w-3.5 h-3.5" />
+            <span>Evaluators</span>
+          </div>
+          <div className="text-sm font-semibold text-slate-900">
+            5 <span className="text-[11px] text-slate-400 font-normal">suites calibrated</span>
+          </div>
+        </div>
+
+        <div className="p-3 rounded-lg border border-slate-200 bg-white space-y-1">
+          <div className="flex items-center gap-1.5 text-slate-400 text-[11px] font-medium">
+            <Activity className="w-3.5 h-3.5" />
+            <span>Backend Status</span>
+          </div>
+          <div className="flex items-center gap-1.5 text-sm font-semibold text-slate-900">
+            <span
+              className={`w-2 h-2 rounded-full ${isOnline ? 'bg-emerald-500' : 'bg-rose-500'}`}
+            />
+            <span>{isOnline ? 'Operational' : 'Offline'}</span>
+          </div>
+        </div>
+      </div>
+
+      {/* 3. Asymmetric Layout: 70% Left Main / 30% Right Contextual */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+        {/* Main Column (~70% width) */}
+        <div className="lg:col-span-8 space-y-5">
+          {/* Research Activity Workbench */}
+          <ResearchWorkspace onNewExperiment={() => setIsExperimentModalOpen(true)} />
+
+          {/* Visual Workflow Pipeline */}
+          <VisualWorkflowPipeline />
+
+          {/* Scientific Module Launchers */}
+          <QuickActions />
+        </div>
+
+        {/* Contextual Telemetry Sidebar (~30% width) */}
+        <div className="lg:col-span-4 space-y-5">
           <ContextualTelemetryPanel
             subsystems={statusOverview?.subsystems || {}}
             providers={statusOverview?.providers || []}
@@ -86,63 +133,21 @@ export const OverviewPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Roadmap Inspection Modal */}
+      {/* New Experiment Phase 1 Gate Modal */}
       <Modal
-        isOpen={isRoadmapModalOpen}
-        onClose={() => setIsRoadmapModalOpen(false)}
-        title="LLM Evaluation Lab — 12-Phase Architecture Progression"
-        subtitle="Current active milestone: Phase 1 — Lab Foundation & Architecture."
-        maxWidth="lg"
+        isOpen={isExperimentModalOpen}
+        onClose={() => setIsExperimentModalOpen(false)}
+        title="New Experiment Run"
+        subtitle="Experiment execution harness is scheduled for Phase 2."
       >
         <div className="space-y-3 text-xs text-slate-600">
-          <div className="p-3.5 bg-sky-50 rounded-xl border border-sky-200/80 space-y-1">
-            <div className="flex items-center justify-between">
-              <span className="font-bold text-slate-900">Phase 1: Lab Foundation & Architecture</span>
-              <Badge variant="verified" size="xs">Active / Verified</Badge>
-            </div>
-            <p className="text-[11px] text-slate-600 leading-relaxed">
-              Monorepo architecture, FastAPI v1 endpoints, SQLAlchemy 2 async database foundations, light research workstation UI, and live telemetry.
-            </p>
-          </div>
-
-          <div className="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
-            <div className="flex items-center justify-between">
-              <span className="font-semibold text-slate-800">Phase 2: Model Playground & Integration</span>
-              <Badge variant="pending" size="xs">Planned</Badge>
-            </div>
-            <p className="text-[11px] text-slate-500">
-              Multi-model streaming, provider adapters (OpenAI, Anthropic, Gemini), and experiment tracking.
-            </p>
-          </div>
-
-          <div className="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
-            <div className="flex items-center justify-between">
-              <span className="font-semibold text-slate-800">Phase 3: Benchmark & Dataset Engine</span>
-              <Badge variant="pending" size="xs">Planned</Badge>
-            </div>
-            <p className="text-[11px] text-slate-500">
-              Standardized research benchmark suite execution (MMLU-Pro, GSM8K, ARC, HumanEval) and dataset catalog.
-            </p>
-          </div>
-
-          <div className="p-3 bg-white rounded-xl border border-slate-200 space-y-1">
-            <div className="flex items-center justify-between">
-              <span className="font-semibold text-slate-800">Phase 4: Evaluation & Scoring Engine</span>
-              <Badge variant="pending" size="xs">Planned</Badge>
-            </div>
-            <p className="text-[11px] text-slate-500">
-              Automated scoring engines, rule-based validators, semantic similarity evaluators, and LLM-as-a-Judge pipelines.
-            </p>
-          </div>
-
-          <div className="p-3 bg-white rounded-xl border border-slate-200 space-y-1 opacity-75">
-            <div className="flex items-center justify-between">
-              <span className="font-semibold text-slate-800">Phases 5–12: Advanced Intelligence & Robustness</span>
-              <Badge variant="pending" size="xs">Roadmap</Badge>
-            </div>
-            <p className="text-[11px] text-slate-500">
-              Hallucination detection, failure clustering, adversarial stress-testing, Pareto frontiers, calibration analysis, and regression tests.
-            </p>
+          <p className="leading-relaxed">
+            Phase 1 provides the foundational architecture and schema validation. In Phase 2, the experiment tracking engine will execute prompts across models, capture streaming tokens, and persist output artifacts.
+          </p>
+          <div className="p-3 rounded bg-slate-50 border border-slate-200 font-mono text-[11px] text-slate-700 space-y-1">
+            <div className="text-slate-400">// Inactivity Gate Status</div>
+            <div>POST /api/v1/modules/experiments/execute → <span className="text-amber-600 font-semibold">501 Not Implemented</span></div>
+            <div>Phase Target: Phase 2 (Model Playground & Integration)</div>
           </div>
         </div>
       </Modal>

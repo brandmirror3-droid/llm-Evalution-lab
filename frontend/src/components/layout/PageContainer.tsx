@@ -26,25 +26,25 @@ export const PageContainer: React.FC<PageContainerProps> = ({
   };
 
   return (
-    <div className={`mx-auto p-4 sm:p-6 lg:p-8 space-y-6 ${widthClasses[maxWidth]} ${className}`}>
+    <div className={`mx-auto px-4 sm:px-6 py-5 space-y-5 ${widthClasses[maxWidth]} ${className}`}>
       {(title || subtitle || actions) && (
-        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 pb-4 border-b border-slate-200/80">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2.5">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3.5 border-b border-slate-200">
+          <div className="space-y-0.5">
+            <div className="flex items-center gap-2">
               {title && (
-                <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900">
+                <h1 className="text-base sm:text-lg font-semibold tracking-tight text-slate-900">
                   {title}
-                </h2>
+                </h1>
               )}
               {badge}
             </div>
             {subtitle && (
-              <p className="text-xs sm:text-sm text-slate-500 max-w-2xl leading-relaxed">
+              <p className="text-xs text-slate-500 leading-normal">
                 {subtitle}
               </p>
             )}
           </div>
-          {actions && <div className="flex items-center gap-2.5 shrink-0">{actions}</div>}
+          {actions && <div className="flex items-center gap-2 shrink-0">{actions}</div>}
         </div>
       )}
       <div>{children}</div>

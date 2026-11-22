@@ -1,5 +1,4 @@
 import React from 'react';
-import { Badge } from './Badge';
 import { Button } from './Button';
 
 export interface EmptyStateProps {
@@ -23,11 +22,8 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   title,
   description,
   purpose,
-  expectedData,
-  enablingCapability,
   enablingPhase,
-  currentActionText,
-  currentAction,
+  enablingCapability,
   action,
   actionLabel,
   onAction,
@@ -35,63 +31,36 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
 }) => {
   const displayDescription = description || purpose || '';
   const displayPhase = enablingPhase || enablingCapability;
-  const displayActionText = currentAction || currentActionText;
 
   return (
     <div
-      className={`border border-dashed border-slate-200 rounded-xl p-6 sm:p-8 flex flex-col items-center justify-center text-center bg-slate-50/50 ${className}`}
+      className={`py-8 px-4 flex flex-col items-center justify-center text-center ${className}`}
     >
       {icon && (
-        <div className="w-11 h-11 rounded-xl bg-white border border-slate-200 shadow-subtle flex items-center justify-center text-slate-500 mb-3.5">
+        <div className="w-9 h-9 rounded-lg bg-slate-100 flex items-center justify-center text-slate-400 mb-2.5">
           {icon}
         </div>
       )}
-      <h4 className="text-sm font-semibold text-slate-900 tracking-tight">
+      <h4 className="text-xs font-semibold text-slate-900 tracking-tight">
         {title}
       </h4>
       {displayDescription && (
-        <p className="text-xs text-slate-500 mt-1.5 max-w-md leading-relaxed">
+        <p className="text-[11px] text-slate-500 mt-1 max-w-sm leading-relaxed">
           {displayDescription}
         </p>
       )}
 
-      {/* 4-part structured breakdown if provided */}
-      {(purpose || expectedData || displayPhase || displayActionText) && (
-        <div className="mt-5 w-full max-w-lg bg-white border border-slate-200/90 rounded-lg p-3.5 text-left text-xs space-y-2 shadow-subtle">
-          {purpose && (
-            <div className="flex items-start gap-2">
-              <span className="font-semibold text-slate-700 w-24 shrink-0">Purpose:</span>
-              <span className="text-slate-600 leading-snug">{purpose}</span>
-            </div>
-          )}
-          {expectedData && (
-            <div className="flex items-start gap-2">
-              <span className="font-semibold text-slate-700 w-24 shrink-0">Expected:</span>
-              <span className="text-slate-600 leading-snug">{expectedData}</span>
-            </div>
-          )}
-          {displayPhase && (
-            <div className="flex items-center gap-2">
-              <span className="font-semibold text-slate-700 w-24 shrink-0">Roadmap:</span>
-              <Badge variant="not_implemented" size="xs">
-                {displayPhase}
-              </Badge>
-            </div>
-          )}
-          {displayActionText && (
-            <div className="flex items-start gap-2">
-              <span className="font-semibold text-slate-700 w-24 shrink-0">Action:</span>
-              <span className="text-slate-600 leading-snug">{displayActionText}</span>
-            </div>
-          )}
+      {displayPhase && (
+        <div className="mt-2 text-[10px] text-slate-400 font-mono">
+          {displayPhase}
         </div>
       )}
 
       {/* Action CTA */}
       {(action || (actionLabel && onAction)) && (
-        <div className="mt-5">
+        <div className="mt-3.5">
           {action || (
-            <Button variant="outline" size="sm" onClick={onAction}>
+            <Button variant="primary" size="xs" onClick={onAction}>
               {actionLabel}
             </Button>
           )}

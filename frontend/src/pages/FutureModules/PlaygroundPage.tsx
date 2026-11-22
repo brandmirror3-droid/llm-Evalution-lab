@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { PageContainer } from '../../components/layout/PageContainer';
-import { Badge } from '../../components/ui/Badge';
 import { Button } from '../../components/ui/Button';
 import { EmptyState } from '../../components/ui/EmptyState';
 import { Modal } from '../../components/ui/Modal';
@@ -9,11 +8,9 @@ import {
   Play,
   Copy,
   Sliders,
-  Sparkles,
-  Info,
-  Cpu,
+  RotateCcw,
+  FileText,
   Clock,
-  Coins,
 } from 'lucide-react';
 
 export const PlaygroundPage: React.FC = () => {
@@ -21,287 +18,321 @@ export const PlaygroundPage: React.FC = () => {
   const [temperature, setTemperature] = useState(0.2);
   const [topP, setTopP] = useState(0.95);
   const [maxTokens, setMaxTokens] = useState(2048);
+  const [stopSequences, setStopSequences] = useState('');
+  const [seed, setSeed] = useState('42');
   const [systemPrompt, setSystemPrompt] = useState(
-    'You are a rigorous scientific evaluator. Analyze the user premise and return structured evaluation findings.'
+    'You are a rigorous scientific evaluation assistant. Provide structured, evidence-grounded answers.'
   );
   const [userPrompt, setUserPrompt] = useState(
-    'Evaluate the logical consistency and potential hallucination risk of this mathematical proof: ...'
+    'Analyze the algorithmic complexity of Dijkstra with a Fibonacci heap vs binary heap.'
   );
+  const [formatMode, setFormatMode] = useState<'text' | 'json' | 'diff'>('text');
   const [isGateModalOpen, setIsGateModalOpen] = useState(false);
 
-  const handleTestExecution = () => {
+  const handleRunInference = () => {
     setIsGateModalOpen(true);
+  };
+
+  const handleReset = () => {
+    setSystemPrompt('You are a rigorous scientific evaluation assistant. Provide structured, evidence-grounded answers.');
+    setUserPrompt('');
+    setTemperature(0.2);
+    setTopP(0.95);
   };
 
   return (
     <PageContainer
-      title="Model Playground Instrument"
-      subtitle="Configurable multi-pane workstation for controlled prompt engineering and parameter tuning."
-      badge={<Badge variant="not_implemented">Phase 2 Target</Badge>}
+      title="Model Playground"
+      subtitle="Interactive prompt engineering, parameter tuning, and comparative model evaluation."
       actions={
         <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleReset}
+            icon={<RotateCcw className="w-3.5 h-3.5 text-slate-400" />}
+          >
+            Reset
+          </Button>
           <Button
             variant="primary"
             size="sm"
             icon={<Play className="w-3.5 h-3.5" />}
-            onClick={handleTestExecution}
+            onClick={handleRunInference}
           >
-            Run Prompt Inference
+            Run Inference
           </Button>
         </div>
       }
       maxWidth="wide"
     >
-      <div className="space-y-4">
-        {/* Transparent Notice Banner */}
-        <div className="p-3.5 rounded-xl bg-sky-50 border border-sky-100 flex items-start gap-3 text-xs text-slate-700">
-          <Info className="w-4 h-4 text-sky-600 shrink-0 mt-0.5" />
-          <div className="space-y-0.5">
-            <span className="font-semibold text-slate-900">
-              Scientific Testing Instrument — Phase 2 Architecture Preview
-            </span>
-            <p className="text-slate-600 leading-relaxed text-[11px]">
-              This interface is an ergonomic preview of the upcoming multi-provider streaming playground. Model inference, token streaming, and provider API calls are scheduled for implementation in Phase 2. No dummy outputs are simulated.
-            </p>
-          </div>
-        </div>
-
-        {/* 3-Pane Scientific Instrument Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
-          {/* Pane 1: Left / Input & Prompt Panel (35% width) */}
-          <div className="lg:col-span-4 bg-white border border-slate-200 rounded-xl p-4 sm:p-5 space-y-4 shadow-card">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-              <div className="flex items-center gap-2">
-                <Terminal className="w-4 h-4 text-slate-500" />
-                <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
-                  Prompt Configuration
-                </h3>
-              </div>
-              <Badge variant="default" size="xs">Input Stage</Badge>
+      {/* 3-Column Ergonomic Workstation Layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
+        {/* Left Column: Prompt Editor (~35% width / col-span-4) */}
+        <div className="lg:col-span-4 bg-white border border-slate-200 rounded-lg flex flex-col h-[680px]">
+          {/* Header */}
+          <div className="px-3.5 py-2.5 border-b border-slate-100 flex items-center justify-between">
+            <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-900">
+              <FileText className="w-3.5 h-3.5 text-slate-400" />
+              <span>Prompt Configuration</span>
             </div>
+            <span className="text-[10px] font-mono text-slate-400">
+              Tokens: ~{Math.round((systemPrompt.length + userPrompt.length) / 4)}
+            </span>
+          </div>
 
+          <div className="p-3.5 flex-1 flex flex-col gap-3 overflow-y-auto">
             {/* Model Selector */}
-            <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-slate-700 flex items-center justify-between">
-                <span>Target Model</span>
-                <span className="font-mono text-[10px] text-slate-400">PROVIDER HARNESS</span>
+            <div className="space-y-1">
+              <label className="text-[11px] font-medium text-slate-600 block">
+                Target Model
               </label>
               <select
                 value={model}
                 onChange={(e) => setModel(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-sky-500 font-mono"
+                className="w-full bg-slate-50 border border-slate-200 rounded-md px-2.5 py-1.5 text-xs text-slate-900 font-mono focus:outline-none focus:border-sky-500"
               >
-                <option value="gpt-4o">OpenAI — gpt-4o (Omni 2024)</option>
-                <option value="claude-3-5-sonnet">Anthropic — claude-3-5-sonnet-20241022</option>
-                <option value="gemini-1-5-pro">Google — gemini-1.5-pro-latest</option>
-                <option value="llama-3-1-70b">Meta — llama-3.1-70b-instruct (Local)</option>
+                <option value="gpt-4o">OpenAI — gpt-4o</option>
+                <option value="claude-3-5-sonnet">Anthropic — claude-3-5-sonnet</option>
+                <option value="gemini-1-5-pro">Google — gemini-1.5-pro</option>
+                <option value="llama-3-1-70b">Meta — llama-3.1-70b-instruct</option>
               </select>
             </div>
 
-            {/* System Instruction */}
-            <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-slate-700 flex items-center justify-between">
-                <span>System Directive</span>
-                <span className="text-[10px] text-slate-400">Context Framing</span>
+            {/* System Instructions */}
+            <div className="space-y-1">
+              <label className="text-[11px] font-medium text-slate-600 block">
+                System Instructions
               </label>
               <textarea
                 value={systemPrompt}
                 onChange={(e) => setSystemPrompt(e.target.value)}
                 rows={4}
-                className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-xs text-slate-900 focus:outline-none focus:border-sky-500 font-sans leading-relaxed resize-none"
+                placeholder="Set behavior or evaluation guidelines..."
+                className="w-full bg-slate-50 border border-slate-200 rounded-md p-2 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-sky-500 font-sans leading-relaxed resize-none"
               />
             </div>
 
             {/* User Prompt */}
-            <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-slate-700 flex items-center justify-between">
-                <span>Evaluation Input Prompt</span>
-                <span className="font-mono text-[10px] text-slate-400">
-                  {userPrompt.length} chars
-                </span>
-              </label>
+            <div className="space-y-1 flex-1 flex flex-col">
+              <div className="flex items-center justify-between">
+                <label className="text-[11px] font-medium text-slate-600">
+                  User Prompt
+                </label>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setUserPrompt(
+                      'Evaluate the logical consistency and identify any premise hallucinations in this theorem proof: ...'
+                    )
+                  }
+                  className="text-[10px] text-sky-600 hover:text-sky-700"
+                >
+                  Load sample
+                </button>
+              </div>
               <textarea
                 value={userPrompt}
                 onChange={(e) => setUserPrompt(e.target.value)}
-                rows={6}
-                className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-xs text-slate-900 focus:outline-none focus:border-sky-500 font-sans leading-relaxed resize-none"
-              />
-            </div>
-          </div>
-
-          {/* Pane 2: Center / Response & Streaming Inspection Area (45% width) */}
-          <div className="lg:col-span-5 bg-white border border-slate-200 rounded-xl p-4 sm:p-5 space-y-4 shadow-card min-h-[460px] flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-                <div className="flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-sky-600" />
-                  <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
-                    Model Response & Token Stream
-                  </h3>
-                </div>
-                <div className="flex items-center gap-2">
-                  <button
-                    disabled
-                    className="p-1 text-slate-400 hover:text-slate-600 disabled:opacity-40"
-                    title="Copy response"
-                  >
-                    <Copy className="w-3.5 h-3.5" />
-                  </button>
-                  <Badge variant="not_configured" size="xs">Stream Idle</Badge>
-                </div>
-              </div>
-
-              {/* Response Canvas */}
-              <div className="mt-4">
-                <EmptyState
-                  icon={<Terminal className="w-5 h-5 text-slate-400" />}
-                  title="Inference Engine Awaiting Phase 2"
-                  description="When triggered in Phase 2, this center pane streams real-time token outputs, measures per-token latency (TTFT), logs logprob confidence, and formats structured outputs."
-                  purpose="Side-by-side inspection of model candidate completions under controlled prompt variations."
-                  expectedData="Raw markdown stream, token timestamps, logprob confidence distribution, and finish reasons."
-                  enablingCapability="Phase 2: Model Playground & Integration"
-                  currentActionText="Adjust hyperparameters in the right panel to preview configuration controls."
-                />
-              </div>
-            </div>
-
-            {/* Bottom telemetry indicators */}
-            <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] font-mono text-slate-400">
-              <span className="flex items-center gap-1.5">
-                <Clock className="w-3.5 h-3.5" /> TTFT: — ms
-              </span>
-              <span className="flex items-center gap-1.5">
-                <Cpu className="w-3.5 h-3.5" /> TOKENS: 0 out
-              </span>
-              <span className="flex items-center gap-1.5">
-                <Coins className="w-3.5 h-3.5" /> EST. COST: $0.00
-              </span>
-            </div>
-          </div>
-
-          {/* Pane 3: Right / Technical Parameter Panel (20% width) */}
-          <div className="lg:col-span-3 bg-white border border-slate-200 rounded-xl p-4 sm:p-5 space-y-4 shadow-card">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-              <div className="flex items-center gap-2">
-                <Sliders className="w-4 h-4 text-slate-500" />
-                <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
-                  Parameters
-                </h3>
-              </div>
-              <Badge variant="accent" size="xs">Tuning</Badge>
-            </div>
-
-            {/* Temperature Slider */}
-            <div className="space-y-1.5">
-              <div className="flex justify-between text-xs">
-                <span className="font-semibold text-slate-700">Temperature</span>
-                <span className="font-mono text-sky-700 font-bold">{temperature}</span>
-              </div>
-              <input
-                type="range"
-                min="0"
-                max="1.5"
-                step="0.05"
-                value={temperature}
-                onChange={(e) => setTemperature(parseFloat(e.target.value))}
-                className="w-full accent-sky-600 cursor-pointer"
-              />
-              <div className="flex justify-between text-[10px] text-slate-400">
-                <span>Deterministic (0.0)</span>
-                <span>Creative (1.5)</span>
-              </div>
-            </div>
-
-            {/* Top P Slider */}
-            <div className="space-y-1.5 pt-2 border-t border-slate-100">
-              <div className="flex justify-between text-xs">
-                <span className="font-semibold text-slate-700">Top P</span>
-                <span className="font-mono text-sky-700 font-bold">{topP}</span>
-              </div>
-              <input
-                type="range"
-                min="0.1"
-                max="1"
-                step="0.05"
-                value={topP}
-                onChange={(e) => setTopP(parseFloat(e.target.value))}
-                className="w-full accent-sky-600 cursor-pointer"
-              />
-              <div className="flex justify-between text-[10px] text-slate-400">
-                <span>Nucleus Sampling</span>
-                <span>1.0</span>
-              </div>
-            </div>
-
-            {/* Max Output Tokens */}
-            <div className="space-y-1.5 pt-2 border-t border-slate-100">
-              <div className="flex justify-between text-xs">
-                <span className="font-semibold text-slate-700">Max Tokens</span>
-                <span className="font-mono text-slate-700 font-medium">{maxTokens}</span>
-              </div>
-              <input
-                type="number"
-                min="64"
-                max="8192"
-                step="128"
-                value={maxTokens}
-                onChange={(e) => setMaxTokens(parseInt(e.target.value) || 2048)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-900 font-mono"
-              />
-            </div>
-
-            {/* Stop Sequences */}
-            <div className="space-y-1.5 pt-2 border-t border-slate-100">
-              <label className="text-xs font-semibold text-slate-700 block">
-                Stop Sequences
-              </label>
-              <input
-                type="text"
-                placeholder="e.g. \n\n, <|endoftext|>"
-                className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-900 font-mono placeholder:text-slate-400"
-              />
-            </div>
-
-            {/* Reproducibility Seed */}
-            <div className="space-y-1.5 pt-2 border-t border-slate-100">
-              <label className="text-xs font-semibold text-slate-700 block">
-                Seed (Reproducibility)
-              </label>
-              <input
-                type="number"
-                placeholder="e.g. 42"
-                className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-900 font-mono placeholder:text-slate-400"
+                placeholder="Enter prompt to evaluate..."
+                className="w-full flex-1 bg-slate-50 border border-slate-200 rounded-md p-2 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-sky-500 font-sans leading-relaxed resize-none min-h-[140px]"
               />
             </div>
           </div>
         </div>
+
+        {/* Center Column: Response Workspace (~45% width / col-span-5) */}
+        <div className="lg:col-span-5 bg-white border border-slate-200 rounded-lg flex flex-col h-[680px]">
+          {/* Output Toolbar */}
+          <div className="px-3.5 py-2 border-b border-slate-100 flex items-center justify-between">
+            <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-900">
+              <Terminal className="w-3.5 h-3.5 text-slate-400" />
+              <span>Model Response</span>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <div className="flex items-center border border-slate-200 rounded overflow-hidden text-[11px]">
+                <button
+                  onClick={() => setFormatMode('text')}
+                  className={`px-2 py-0.5 ${
+                    formatMode === 'text' ? 'bg-slate-100 font-medium text-slate-900' : 'text-slate-500'
+                  }`}
+                >
+                  Text
+                </button>
+                <button
+                  onClick={() => setFormatMode('json')}
+                  className={`px-2 py-0.5 ${
+                    formatMode === 'json' ? 'bg-slate-100 font-medium text-slate-900' : 'text-slate-500'
+                  }`}
+                >
+                  JSON
+                </button>
+              </div>
+
+              <button
+                onClick={() => navigator.clipboard.writeText('No output generated yet')}
+                className="p-1 rounded text-slate-400 hover:text-slate-600 transition-colors"
+                title="Copy response"
+              >
+                <Copy className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </div>
+
+          {/* Response Body Area */}
+          <div className="flex-1 p-4 bg-slate-50/40 flex flex-col justify-center items-center overflow-y-auto">
+            <EmptyState
+              icon={<Terminal className="w-5 h-5" />}
+              title="No output generated yet"
+              description="Configure your prompt and parameters, then click 'Run Inference' to test model responses."
+              enablingPhase="Phase 2: Model Playground & Integration"
+              actionLabel="Run Inference"
+              onAction={handleRunInference}
+            />
+          </div>
+
+          {/* Telemetry Footer */}
+          <div className="px-3.5 py-2 border-t border-slate-100 bg-slate-50/70 text-[10px] font-mono text-slate-500 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <span>Tokens: 0</span>
+              <span>Speed: 0.0 tok/s</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Clock className="w-3 h-3 text-slate-400" />
+              <span>Latency: -- ms</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Column: Parameters Tool Panel (~20% width / col-span-3) */}
+        <div className="lg:col-span-3 bg-white border border-slate-200 rounded-lg flex flex-col h-[680px]">
+          <div className="px-3.5 py-2.5 border-b border-slate-100 flex items-center gap-1.5 text-xs font-semibold text-slate-900">
+            <Sliders className="w-3.5 h-3.5 text-slate-400" />
+            <span>Decoding Parameters</span>
+          </div>
+
+          <div className="p-3.5 space-y-4 flex-1 overflow-y-auto text-xs">
+            {/* Temperature */}
+            <div className="space-y-1.5">
+              <div className="flex justify-between text-[11px]">
+                <span className="font-medium text-slate-600">Temperature</span>
+                <span className="font-mono text-slate-800 font-semibold">{temperature.toFixed(2)}</span>
+              </div>
+              <input
+                type="range"
+                min="0.0"
+                max="2.0"
+                step="0.05"
+                value={temperature}
+                onChange={(e) => setTemperature(parseFloat(e.target.value))}
+                className="w-full accent-sky-600 h-1 bg-slate-200 rounded appearance-none cursor-pointer"
+              />
+              <div className="flex justify-between text-[9px] text-slate-400 font-mono">
+                <span>0.0 (Deterministic)</span>
+                <span>2.0 (Creative)</span>
+              </div>
+            </div>
+
+            {/* Top P */}
+            <div className="space-y-1.5">
+              <div className="flex justify-between text-[11px]">
+                <span className="font-medium text-slate-600">Top P (Nucleus)</span>
+                <span className="font-mono text-slate-800 font-semibold">{topP.toFixed(2)}</span>
+              </div>
+              <input
+                type="range"
+                min="0.0"
+                max="1.0"
+                step="0.05"
+                value={topP}
+                onChange={(e) => setTopP(parseFloat(e.target.value))}
+                className="w-full accent-sky-600 h-1 bg-slate-200 rounded appearance-none cursor-pointer"
+              />
+            </div>
+
+            {/* Max Output Tokens */}
+            <div className="space-y-1">
+              <label className="text-[11px] font-medium text-slate-600 block">
+                Max Output Tokens
+              </label>
+              <input
+                type="number"
+                value={maxTokens}
+                onChange={(e) => setMaxTokens(parseInt(e.target.value) || 2048)}
+                className="w-full bg-slate-50 border border-slate-200 rounded-md px-2.5 py-1 text-xs font-mono text-slate-900 focus:outline-none focus:border-sky-500"
+              />
+            </div>
+
+            {/* Stop Sequences */}
+            <div className="space-y-1">
+              <label className="text-[11px] font-medium text-slate-600 block">
+                Stop Sequences
+              </label>
+              <input
+                type="text"
+                placeholder="e.g. \n\n, ###"
+                value={stopSequences}
+                onChange={(e) => setStopSequences(e.target.value)}
+                className="w-full bg-slate-50 border border-slate-200 rounded-md px-2.5 py-1 text-xs font-mono text-slate-900 placeholder-slate-400 focus:outline-none focus:border-sky-500"
+              />
+            </div>
+
+            {/* Random Seed */}
+            <div className="space-y-1">
+              <label className="text-[11px] font-medium text-slate-600 block">
+                Random Seed
+              </label>
+              <input
+                type="text"
+                value={seed}
+                onChange={(e) => setSeed(e.target.value)}
+                className="w-full bg-slate-50 border border-slate-200 rounded-md px-2.5 py-1 text-xs font-mono text-slate-900 focus:outline-none focus:border-sky-500"
+              />
+            </div>
+
+            <div className="pt-2 border-t border-slate-100 text-[11px] text-slate-400 space-y-1">
+              <div className="flex justify-between">
+                <span>Context Window:</span>
+                <span className="font-mono text-slate-600">128,000</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Provider:</span>
+                <span className="font-mono text-slate-600">OpenAI</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-3 border-t border-slate-100">
+            <Button
+              variant="primary"
+              size="sm"
+              className="w-full justify-center"
+              icon={<Play className="w-3.5 h-3.5" />}
+              onClick={handleRunInference}
+            >
+              Run Inference
+            </Button>
+          </div>
+        </div>
       </div>
 
-      {/* Execution Verification Modal */}
+      {/* Phase 2 Gate Modal */}
       <Modal
         isOpen={isGateModalOpen}
         onClose={() => setIsGateModalOpen(false)}
-        title="Execution Gated — Phase 2 Scheduled"
-        subtitle="Verifies that real model inference will be enabled in Phase 2 without synthetic mockups."
-        footer={
-          <Button variant="secondary" size="xs" onClick={() => setIsGateModalOpen(false)}>
-            Dismiss
-          </Button>
-        }
+        title="Model Execution Gate"
+        subtitle="Live multi-provider inference is scheduled for Phase 2."
       >
-        <div className="space-y-3">
-          <div className="p-3 rounded-lg bg-sky-50 border border-sky-100 text-[11px] text-sky-900 leading-relaxed">
-            <strong>Configured Parameters Captured:</strong>
-            <div className="font-mono mt-1 text-slate-700 space-y-0.5">
-              <div>Model: {model}</div>
-              <div>Temperature: {temperature}</div>
-              <div>Top P: {topP}</div>
-              <div>Max Tokens: {maxTokens}</div>
-            </div>
-          </div>
-          <p className="text-slate-600 leading-relaxed text-xs">
-            Per strict Phase 1 compliance, the platform does not fabricate fake model responses. Live multi-provider streaming will connect to OpenAI, Anthropic, and Gemini in Phase 2.
+        <div className="space-y-3 text-xs text-slate-600">
+          <p className="leading-relaxed">
+            The Model Playground UI is configured and verified. Live streaming tokens and provider API integration (OpenAI, Anthropic, Gemini) will activate upon entering Phase 2.
           </p>
+          <div className="p-3 rounded bg-slate-50 border border-slate-200 font-mono text-[11px] text-slate-700 space-y-1">
+            <div className="text-slate-400">// Execution Inactivity Guard</div>
+            <div>POST /api/v1/modules/playground/execute → <span className="text-amber-600 font-semibold">501 Not Implemented</span></div>
+            <div>Target Model: {model} (T={temperature})</div>
+          </div>
         </div>
       </Modal>
     </PageContainer>
