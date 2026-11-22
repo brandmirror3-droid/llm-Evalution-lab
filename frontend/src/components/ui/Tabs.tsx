@@ -26,17 +26,17 @@ export const Tabs: React.FC<TabsProps> = ({
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <div className={`flex items-center gap-1 border-b border-slate-200 ${className}`}>
+    <div className={`flex items-center gap-1 border-b border-slate-800 ${className}`}>
       {tabs.map((tab) => {
         const isActive = tab.id === activeTab;
         return (
           <button
             key={tab.id}
             onClick={() => onChange(tab.id)}
-            className={`relative flex items-center gap-2 px-3.5 py-2.5 text-xs font-medium transition-colors select-none ${
+            className={`relative flex items-center gap-2 px-3 py-2 text-xs font-medium transition-colors select-none ${
               isActive
-                ? 'text-slate-900 font-semibold'
-                : 'text-slate-500 hover:text-slate-800'
+                ? 'text-sky-400 font-semibold'
+                : 'text-slate-400 hover:text-slate-200'
             }`}
           >
             <span className="relative z-10">{tab.label}</span>
@@ -44,8 +44,8 @@ export const Tabs: React.FC<TabsProps> = ({
               <span
                 className={`relative z-10 text-[10px] font-mono px-1.5 py-0.2 rounded-full ${
                   isActive
-                    ? 'bg-slate-900 text-white font-medium'
-                    : 'bg-slate-100 text-slate-600'
+                    ? 'bg-sky-500/20 text-sky-300 border border-sky-500/30 font-medium'
+                    : 'bg-slate-800/80 text-slate-400 border border-slate-700/50'
                 }`}
               >
                 {tab.count}
@@ -57,7 +57,7 @@ export const Tabs: React.FC<TabsProps> = ({
             {isActive && (
               <motion.span
                 layoutId={shouldReduceMotion ? undefined : `${idPrefix}-active-indicator`}
-                className="absolute bottom-0 left-0 right-0 h-0.5 bg-slate-900 rounded-t"
+                className="absolute bottom-0 left-0 right-0 h-0.5 bg-sky-400 rounded-t"
                 transition={{
                   type: 'spring',
                   stiffness: 420,

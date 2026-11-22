@@ -105,26 +105,29 @@ export const VisualWorkflowPipeline: React.FC = () => {
   const [selectedNode, setSelectedNode] = useState<WorkflowNode | null>(null);
 
   return (
-    <div className="bg-white border border-slate-200 rounded-lg overflow-hidden">
+    <div className="bg-[#0c111a] border border-slate-800 rounded-lg overflow-hidden font-sans select-none shadow-sm">
       {/* Canvas Header */}
-      <div className="px-4 py-3 border-b border-slate-100 flex items-center justify-between">
-        <div>
-          <h3 className="text-xs font-semibold text-slate-900 tracking-tight">
-            Evaluation Pipeline Architecture
-          </h3>
-          <p className="text-[11px] text-slate-500">
-            Conceptual five-stage evaluation workflow: Input → Model → Evaluator → Analysis → Result
-          </p>
+      <div className="px-4 py-2.5 border-b border-slate-800/80 flex items-center justify-between bg-[#080c14]">
+        <div className="flex items-center gap-2">
+          <Sliders className="w-3.5 h-3.5 text-sky-400" />
+          <div>
+            <h3 className="text-xs font-bold text-slate-100 tracking-wider uppercase font-mono">
+              Evaluation Pipeline Topology Canvas
+            </h3>
+            <p className="text-[10px] text-slate-400 font-mono">
+              01_INPUT ❯ 02_INFERENCE ❯ 03_EVAL_JUDGE ❯ 04_ERROR_TAXONOMY ❯ 05_ARTIFACT_MANIFEST
+            </p>
+          </div>
         </div>
-        <div className="flex items-center gap-1.5 text-[11px] font-medium text-slate-500 bg-slate-50 border border-slate-200 px-2 py-0.5 rounded">
-          <Lock className="w-3 h-3 text-slate-400" />
-          <span>Phase 1 Architecture</span>
+        <div className="flex items-center gap-1.5 text-[10px] font-mono text-sky-300 bg-sky-950/40 border border-sky-800/60 px-2 py-0.5 rounded">
+          <Lock className="w-3 h-3 text-sky-400" />
+          <span>SCHEMA_VALIDATED</span>
         </div>
       </div>
 
-      {/* Canvas Area with Dot Grid */}
-      <div className="relative p-4 sm:p-6 bg-slate-50/60 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:16px_16px] overflow-x-auto">
-        <div className="flex items-center justify-between min-w-[760px] gap-2">
+      {/* Canvas Area with Dark Dot Grid */}
+      <div className="relative p-4 sm:p-5 bg-[#080c14] bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:16px_16px] overflow-x-auto">
+        <div className="flex items-center justify-between min-w-[780px] gap-2">
           {WORKFLOW_NODES.map((node, index) => {
             const Icon = node.icon;
             const isSelected = selectedNode?.id === node.id;
@@ -134,43 +137,47 @@ export const VisualWorkflowPipeline: React.FC = () => {
                 {/* Node Box */}
                 <div
                   onClick={() => setSelectedNode(node)}
-                  className={`relative flex-1 p-3 rounded-lg border bg-white cursor-pointer transition-all ${
+                  className={`relative flex-1 p-3 rounded border bg-[#0e141f] cursor-pointer transition-all ${
                     isSelected
-                      ? 'border-sky-500 ring-2 ring-sky-100 shadow-sm'
-                      : 'border-slate-200 hover:border-slate-300 hover:shadow-subtle'
+                      ? 'border-sky-400 bg-[#142033] ring-1 ring-sky-400/40 shadow-[0_0_12px_rgba(56,189,248,0.2)]'
+                      : 'border-slate-800 hover:border-slate-700 hover:bg-[#111724]'
                   }`}
                 >
+                  {/* Visual Node Ports */}
+                  <span className="absolute -left-1 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-slate-700 border border-slate-900" />
+                  <span className="absolute -right-1 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-sky-400 border border-slate-900 shadow-[0_0_4px_rgba(56,189,248,0.8)]" />
+
                   {/* Stage number & status */}
                   <div className="flex items-center justify-between mb-2">
-                    <span className="font-mono text-[10px] text-slate-400 font-semibold">
-                      {node.stageNumber}
+                    <span className="font-mono text-[10px] text-sky-400 font-bold">
+                      NODE_{node.stageNumber}
                     </span>
-                    <span className="text-[9px] font-mono px-1 py-0.2 rounded bg-slate-100 text-slate-500">
+                    <span className="text-[9px] font-mono px-1 py-0.2 rounded bg-[#090d14] text-slate-400 border border-slate-800">
                       {node.targetPhase.split(' ')[0]}
                     </span>
                   </div>
 
                   {/* Icon & Title */}
                   <div className="flex items-center gap-2 mb-2">
-                    <div className="w-6 h-6 rounded bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-600">
+                    <div className="w-6 h-6 rounded bg-[#101622] border border-slate-800 flex items-center justify-center text-sky-400 shrink-0">
                       <Icon className="w-3.5 h-3.5" />
                     </div>
                     <div className="min-w-0">
-                      <div className="text-xs font-semibold text-slate-900 truncate">
+                      <div className="text-xs font-semibold text-slate-100 truncate">
                         {node.title}
                       </div>
-                      <div className="text-[10px] text-slate-500 truncate">
+                      <div className="text-[10px] text-slate-400 font-mono truncate">
                         {node.subtitle}
                       </div>
                     </div>
                   </div>
 
                   {/* Key parameters */}
-                  <div className="space-y-1 pt-1.5 border-t border-slate-100 text-[10px] font-mono text-slate-500">
+                  <div className="space-y-1 pt-1.5 border-t border-slate-800/80 text-[10px] font-mono text-slate-400">
                     {node.params.slice(0, 2).map((p, i) => (
                       <div key={i} className="flex justify-between truncate">
-                        <span className="text-slate-400">{p.label}:</span>
-                        <span className="text-slate-700 font-medium truncate ml-1">{p.value}</span>
+                        <span className="text-slate-500">{p.label}:</span>
+                        <span className="text-slate-300 font-medium truncate ml-1">{p.value}</span>
                       </div>
                     ))}
                   </div>
@@ -178,8 +185,8 @@ export const VisualWorkflowPipeline: React.FC = () => {
 
                 {/* Arrow Connector between nodes */}
                 {index < WORKFLOW_NODES.length - 1 && (
-                  <div className="shrink-0 flex items-center justify-center text-slate-300 px-1">
-                    <ChevronRight className="w-4 h-4" />
+                  <div className="shrink-0 flex items-center justify-center text-slate-600 px-1">
+                    <ChevronRight className="w-4 h-4 text-sky-500/70" />
                   </div>
                 )}
               </React.Fragment>
@@ -190,31 +197,31 @@ export const VisualWorkflowPipeline: React.FC = () => {
 
       {/* Selected Node Inspector Drawer (Bottom of canvas) */}
       {selectedNode && (
-        <div className="p-4 border-t border-slate-200 bg-white flex flex-col sm:flex-row sm:items-start justify-between gap-4 text-xs">
-          <div className="space-y-1.5 flex-1">
+        <div className="p-3.5 border-t border-slate-800 bg-[#080c14] flex flex-col sm:flex-row sm:items-start justify-between gap-4 text-xs font-mono">
+          <div className="space-y-1 flex-1">
             <div className="flex items-center gap-2">
-              <span className="font-mono font-semibold text-sky-600 text-[11px]">
-                Stage {selectedNode.stageNumber}:
+              <span className="font-bold text-sky-400 text-[11px]">
+                [STAGE_{selectedNode.stageNumber}]
               </span>
-              <h4 className="font-semibold text-slate-900">{selectedNode.title}</h4>
-              <span className="text-[10px] font-mono text-slate-400">
-                Target: {selectedNode.targetPhase}
+              <h4 className="font-semibold text-slate-100">{selectedNode.title}</h4>
+              <span className="text-[10px] text-slate-500">
+                // Target: {selectedNode.targetPhase}
               </span>
             </div>
-            <p className="text-[11px] text-slate-600 leading-relaxed max-w-2xl">
+            <p className="text-[11px] text-slate-400 font-sans leading-relaxed max-w-2xl">
               {selectedNode.description}
             </p>
           </div>
 
-          <div className="flex items-center gap-4 shrink-0">
-            <div className="flex items-center gap-2 font-mono text-[11px] bg-slate-50 px-2.5 py-1.5 rounded border border-slate-200">
-              <Sliders className="w-3.5 h-3.5 text-slate-400" />
-              <span className="text-slate-700">Schema Verified</span>
+          <div className="flex items-center gap-3 shrink-0">
+            <div className="flex items-center gap-2 text-[10px] bg-[#101622] px-2 py-1 rounded border border-slate-800 text-slate-300">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+              <span>CONTRACT_VERIFIED</span>
             </div>
             <button
               onClick={() => setSelectedNode(null)}
-              className="p-1 rounded text-slate-400 hover:text-slate-700 transition-colors"
-              title="Close inspection"
+              className="p-1 rounded text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition-colors"
+              title="Close inspector"
             >
               <X className="w-4 h-4" />
             </button>
@@ -223,9 +230,9 @@ export const VisualWorkflowPipeline: React.FC = () => {
       )}
 
       {/* Footer Info */}
-      <div className="px-4 py-2 border-t border-slate-100 bg-slate-50/50 flex items-center justify-between text-[11px] text-slate-500">
-        <span>Click any stage node to inspect its execution parameters and schemas.</span>
-        <span className="font-mono text-slate-400">State: Architecture Validated</span>
+      <div className="px-3.5 py-1.5 border-t border-slate-800/80 bg-[#06090f] flex items-center justify-between text-[10px] font-mono text-slate-500">
+        <span>Click node to inspect stage parameters and I/O contracts.</span>
+        <span className="text-sky-400">STATE: TOPOLOGY_LOCKED (PHASE_01)</span>
       </div>
     </div>
   );

@@ -55,7 +55,7 @@ export const Modal: React.FC<ModalProps> = ({
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm"
+            className="fixed inset-0 bg-black/75 backdrop-blur-sm"
             onClick={onClose}
           />
 
@@ -65,34 +65,34 @@ export const Modal: React.FC<ModalProps> = ({
             initial="hidden"
             animate="visible"
             exit="exit"
-            className={`relative w-full ${widthClasses[maxWidth]} bg-white border border-slate-200 rounded-2xl shadow-modal overflow-hidden z-10`}
+            className={`relative w-full ${widthClasses[maxWidth]} bg-[#0e141f] border border-slate-800 rounded-lg shadow-2xl overflow-hidden z-10`}
             role="dialog"
             aria-modal="true"
           >
-            <div className="p-5 border-b border-slate-100 flex items-start justify-between gap-4">
+            <div className="p-4 border-b border-slate-800/80 flex items-start justify-between gap-4">
               <div>
-                <h3 className="text-base font-semibold text-slate-900 tracking-tight">
+                <h3 className="text-sm font-semibold text-slate-100 tracking-tight">
                   {title}
                 </h3>
                 {subtitle && (
-                  <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                  <p className="text-xs text-slate-400 mt-1 leading-relaxed">
                     {subtitle}
                   </p>
                 )}
               </div>
               <button
                 onClick={onClose}
-                className="text-slate-400 hover:text-slate-700 p-1.5 rounded-lg hover:bg-slate-100 transition-colors"
+                className="text-slate-400 hover:text-slate-200 p-1 rounded hover:bg-slate-800 transition-colors"
                 aria-label="Close modal"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <div className="p-5 max-h-[75vh] overflow-y-auto text-slate-700 text-xs">{children}</div>
+            <div className="p-4 max-h-[75vh] overflow-y-auto text-slate-300 text-xs">{children}</div>
 
             {footer && (
-              <div className="px-5 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-end gap-2.5">
+              <div className="px-4 py-3 bg-[#090d14] border-t border-slate-800/80 flex items-center justify-end gap-2.5">
                 {footer}
               </div>
             )}

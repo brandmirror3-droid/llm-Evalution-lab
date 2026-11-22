@@ -130,20 +130,20 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const shouldReduceMotion = useReducedMotion();
 
   const sidebarContent = (
-    <div className="flex flex-col h-full bg-white border-r border-slate-200 text-slate-600 select-none">
+    <div className="flex flex-col h-full bg-[#0a0e17] border-r border-slate-800/80 text-slate-300 select-none">
       {/* Brand Header */}
-      <div className="h-12 px-3.5 border-b border-slate-100 flex items-center justify-between shrink-0">
+      <div className="h-11 px-3 border-b border-slate-800/80 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-2.5 overflow-hidden">
-          <div className="w-6 h-6 rounded-md bg-slate-900 flex items-center justify-center text-white shrink-0">
+          <div className="w-6 h-6 rounded bg-[#101622] border border-slate-700/60 flex items-center justify-center text-white shrink-0 shadow-sm">
             <FlaskRound className="w-3.5 h-3.5 text-sky-400" />
           </div>
           {!isCollapsed && (
             <div className="flex flex-col min-w-0">
-              <span className="text-xs font-semibold text-slate-900 tracking-tight truncate">
+              <span className="text-[11px] font-bold text-slate-100 tracking-wider font-mono truncate">
                 EVALUATION LAB
               </span>
-              <span className="text-[10px] text-slate-400 font-normal">
-                Research Workstation
+              <span className="text-[9px] text-slate-500 font-mono tracking-tight">
+                RESEARCH_FACILITY v0.1
               </span>
             </div>
           )}
@@ -152,7 +152,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {/* Desktop Collapse Toggle */}
         <button
           onClick={onToggleCollapse}
-          className="hidden md:flex p-1 rounded hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors"
+          className="hidden md:flex p-1 rounded hover:bg-slate-800 text-slate-500 hover:text-slate-300 transition-colors"
           title={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
         >
           {isCollapsed ? (
@@ -165,18 +165,18 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {/* Mobile Close Button */}
         <button
           onClick={onCloseMobile}
-          className="md:hidden p-1 rounded hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors"
+          className="md:hidden p-1 rounded hover:bg-slate-800 text-slate-500 hover:text-slate-300 transition-colors"
         >
           <X className="w-3.5 h-3.5" />
         </button>
       </div>
 
       {/* Navigation Sections */}
-      <div className="flex-1 overflow-y-auto px-2 py-3 space-y-4">
+      <div className="flex-1 overflow-y-auto px-2 py-3 space-y-3.5">
         {NAVIGATION_SECTIONS.map((section) => (
           <div key={section.title} className="space-y-0.5">
             {!isCollapsed && (
-              <h4 className="px-2 py-1 text-[10px] font-medium text-slate-400 uppercase tracking-wider">
+              <h4 className="px-2 py-1 text-[9px] font-mono font-medium text-slate-500 uppercase tracking-widest">
                 {section.title}
               </h4>
             )}
@@ -193,10 +193,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     <NavLink
                       to={item.path}
                       onClick={onCloseMobile}
-                      className={`group relative flex items-center gap-2.5 px-2 py-1.5 rounded-md text-xs font-medium transition-colors ${
+                      className={`group relative flex items-center gap-2.5 px-2 py-1.5 rounded text-xs font-medium transition-colors ${
                         isActive
-                          ? 'text-slate-900 bg-slate-100 font-semibold'
-                          : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                          ? 'text-sky-300 bg-[#131b28] font-semibold'
+                          : 'text-slate-400 hover:text-slate-200 hover:bg-[#0f1522]'
                       }`}
                       title={isCollapsed ? item.name : undefined}
                     >
@@ -204,7 +204,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       {isActive && (
                         <motion.span
                           layoutId={shouldReduceMotion ? undefined : 'sidebarActiveBar'}
-                          className="absolute left-0 top-1 bottom-1 w-0.5 bg-slate-900 rounded-r z-10"
+                          className="absolute left-0 top-1 bottom-1 w-0.5 bg-sky-400 rounded-r z-10 shadow-[0_0_8px_rgba(56,189,248,0.8)]"
                           transition={{
                             type: 'spring',
                             stiffness: 420,
@@ -214,15 +214,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       )}
 
                       <Icon
-                        className={`w-4 h-4 shrink-0 transition-colors ${
+                        className={`w-3.5 h-3.5 shrink-0 transition-colors ${
                           isActive
-                            ? 'text-sky-600'
-                            : 'text-slate-400 group-hover:text-slate-600'
+                            ? 'text-sky-400'
+                            : 'text-slate-500 group-hover:text-slate-300'
                         }`}
                       />
 
                       {!isCollapsed && (
-                        <span className="truncate">{item.name}</span>
+                        <span className="truncate tracking-tight">{item.name}</span>
                       )}
                     </NavLink>
                   </li>
@@ -235,11 +235,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
       {/* Footer Info */}
       {!isCollapsed && (
-        <div className="p-2.5 border-t border-slate-100 text-[10px] text-slate-400 flex items-center justify-between">
-          <span className="font-mono">Phase 1</span>
-          <span className="flex items-center gap-1.5 text-slate-500">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-            Foundation Active
+        <div className="p-2 border-t border-slate-800/80 text-[10px] font-mono text-slate-500 flex items-center justify-between bg-[#080c14]">
+          <span className="text-slate-400">PHASE_01</span>
+          <span className="flex items-center gap-1.5 text-emerald-400">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.6)]" />
+            CORE ACTIVE
           </span>
         </div>
       )}

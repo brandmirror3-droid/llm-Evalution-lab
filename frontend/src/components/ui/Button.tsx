@@ -21,21 +21,21 @@ export const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const baseStyles =
-    'relative group inline-flex items-center justify-center font-medium transition-all duration-150 ease-apple focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500/30 disabled:pointer-events-none disabled:opacity-45 rounded-lg active:scale-[0.98] select-none';
+    'relative group inline-flex items-center justify-center font-medium transition-all duration-150 ease-apple focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-sky-500/50 disabled:pointer-events-none disabled:opacity-40 rounded-md active:scale-[0.98] select-none text-xs';
 
   const variants: Record<ButtonVariant, string> = {
     primary:
-      'bg-slate-900 text-white hover:bg-slate-800 active:bg-slate-950 shadow-subtle',
+      'bg-sky-500 text-slate-950 hover:bg-sky-400 active:bg-sky-600 font-semibold shadow-sm',
     secondary:
-      'bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 hover:border-slate-300 shadow-subtle',
+      'bg-[#131b28] hover:bg-[#1a2436] text-slate-200 border border-slate-800 hover:border-slate-700 shadow-subtle',
     accent:
-      'bg-sky-600 hover:bg-sky-700 active:bg-sky-800 text-white shadow-subtle',
+      'bg-sky-600 hover:bg-sky-500 active:bg-sky-700 text-white shadow-subtle',
     outline:
-      'bg-transparent hover:bg-slate-100/70 text-slate-700 border border-slate-300',
+      'bg-transparent hover:bg-slate-800/60 text-slate-300 border border-slate-700/80',
     ghost:
-      'bg-transparent hover:bg-slate-100 text-slate-600 hover:text-slate-900',
+      'bg-transparent hover:bg-slate-800/60 text-slate-400 hover:text-slate-200',
     danger:
-      'bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200',
+      'bg-rose-950/40 hover:bg-rose-900/50 text-rose-300 border border-rose-800/50',
   };
 
   const sizes: Record<ButtonSize, string> = {

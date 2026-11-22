@@ -73,70 +73,72 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileSidebar }) => {
 
   return (
     <>
-      <header className="h-12 bg-white border-b border-slate-200 px-4 sm:px-6 flex items-center justify-between shrink-0 sticky top-0 z-30">
+      <header className="h-11 bg-[#090d14] border-b border-slate-800/80 px-4 sm:px-6 flex items-center justify-between shrink-0 sticky top-0 z-30 select-none">
         {/* Left: Mobile trigger & Breadcrumbs */}
         <div className="flex items-center gap-3">
           <button
             onClick={onOpenMobileSidebar}
-            className="md:hidden p-1 rounded-md text-slate-500 hover:text-slate-800 hover:bg-slate-100"
+            className="md:hidden p-1 rounded-md text-slate-400 hover:text-slate-200 hover:bg-slate-800"
             aria-label="Toggle mobile menu"
           >
             <Menu className="w-4 h-4" />
           </button>
 
-          <div className="flex items-center gap-1.5 text-xs">
-            <span className="text-slate-400 font-medium">Lab</span>
-            <span className="text-slate-300">/</span>
-            <span className="font-semibold text-slate-900">{routeInfo.title}</span>
+          <div className="flex items-center gap-1.5 text-xs font-mono">
+            <span className="text-slate-500 font-medium">RESEARCH_FACILITY</span>
+            <span className="text-slate-700">/</span>
+            <span className="text-slate-400 uppercase text-[11px]">{routeInfo.section}</span>
+            <span className="text-slate-700">/</span>
+            <span className="font-semibold text-sky-400">{routeInfo.title}</span>
           </div>
         </div>
 
         {/* Right: Search, API Status, Workspace */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
           {/* Quick Search Trigger */}
           <button
             onClick={() => setIsSearchOpen(true)}
-            className="hidden sm:flex items-center gap-2 px-2.5 py-1 rounded-md bg-slate-50 hover:bg-slate-100 border border-slate-200 text-xs text-slate-500 transition-colors"
+            className="hidden sm:flex items-center gap-2 px-2.5 py-1 rounded bg-[#101622] hover:bg-[#162030] border border-slate-800 text-xs text-slate-400 transition-colors"
           >
-            <Search className="w-3.5 h-3.5 text-slate-400" />
-            <span className="text-[11px]">Search modules...</span>
-            <kbd className="font-mono text-[9px] bg-white px-1 py-0.2 rounded border border-slate-200 text-slate-400">
+            <Search className="w-3.5 h-3.5 text-slate-500" />
+            <span className="text-[11px] font-sans">Command palette...</span>
+            <kbd className="font-mono text-[9px] bg-[#090d14] px-1 py-0.2 rounded border border-slate-800 text-slate-400">
               ⌘K
             </kbd>
           </button>
 
           {/* Backend Status Dot */}
-          <div className="flex items-center gap-1.5 px-2 py-0.5 rounded text-[11px] font-medium border border-slate-200 bg-slate-50">
+          <div className="flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-mono border border-slate-800 bg-[#101622]">
             <span
               className={`w-1.5 h-1.5 rounded-full ${
                 backendHealth === 'healthy'
-                  ? 'bg-emerald-500'
+                  ? 'bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.5)]'
                   : backendHealth === 'offline'
-                  ? 'bg-rose-500'
-                  : 'bg-slate-400'
+                  ? 'bg-rose-500 shadow-[0_0_6px_rgba(244,63,94,0.5)]'
+                  : 'bg-slate-500'
               }`}
             />
-            <span className="text-slate-600">
+            <span className={backendHealth === 'healthy' ? 'text-slate-300' : 'text-rose-400'}>
               {backendHealth === 'healthy'
-                ? 'API Online'
+                ? 'CORE_API: ONLINE'
                 : backendHealth === 'offline'
-                ? 'API Offline'
-                : 'Connecting...'}
+                ? 'CORE_API: OFFLINE'
+                : 'CONNECTING...'}
             </span>
           </div>
 
           {/* Workspace Pill */}
-          <div className="hidden md:flex items-center gap-1.5 text-xs text-slate-500">
-            <Layers className="w-3.5 h-3.5 text-slate-400" />
-            <span className="text-[11px] font-medium text-slate-700">Default Lab</span>
+          <div className="hidden md:flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-mono border border-slate-800 bg-[#101622] text-slate-300">
+            <Layers className="w-3 h-3 text-sky-400" />
+            <span className="truncate">WS: DEFAULT_LAB</span>
           </div>
 
           <Link
             to="/settings"
-            className="p-1.5 rounded-md hover:bg-slate-100 text-slate-400 hover:text-slate-700 transition-colors"
-            title="Settings"
+            className="p-1 rounded hover:bg-slate-800 text-slate-400 hover:text-slate-200 transition-colors"
+            title="Settings & Telemetry"
           >
-            <Settings className="w-4 h-4" />
+            <Settings className="w-3.5 h-3.5" />
           </Link>
         </div>
       </header>
@@ -156,7 +158,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileSidebar }) => {
               type="text"
               placeholder="Jump to module (e.g. Playground, Benchmarks)..."
               autoFocus
-              className="w-full bg-slate-50 border border-slate-200 rounded-lg pl-9 pr-3 py-2 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-sky-500 font-sans"
+              className="w-full bg-[#131b28] border border-slate-700/80 rounded-md pl-9 pr-3 py-2 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-sky-500 font-sans"
             />
           </div>
 
@@ -164,34 +166,34 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileSidebar }) => {
             <Link
               to="/playground"
               onClick={() => setIsSearchOpen(false)}
-              className="flex items-center justify-between p-2 rounded-md hover:bg-slate-50 transition-colors"
+              className="flex items-center justify-between p-2 rounded-md hover:bg-[#131b28] text-slate-300 transition-colors"
             >
-              <span className="font-medium text-slate-800">Model Playground</span>
-              <span className="text-[10px] text-slate-400">Prompt Testing</span>
+              <span className="font-medium text-slate-200">Model Playground</span>
+              <span className="text-[10px] text-slate-500 font-mono">WORKSPACE_02</span>
             </Link>
             <Link
               to="/experiments"
               onClick={() => setIsSearchOpen(false)}
-              className="flex items-center justify-between p-2 rounded-md hover:bg-slate-50 transition-colors"
+              className="flex items-center justify-between p-2 rounded-md hover:bg-[#131b28] text-slate-300 transition-colors"
             >
-              <span className="font-medium text-slate-800">Experiments</span>
-              <span className="text-[10px] text-slate-400">Run Workbench</span>
+              <span className="font-medium text-slate-200">Experiments</span>
+              <span className="text-[10px] text-slate-500 font-mono">WORKSPACE_03</span>
             </Link>
             <Link
               to="/benchmarks"
               onClick={() => setIsSearchOpen(false)}
-              className="flex items-center justify-between p-2 rounded-md hover:bg-slate-50 transition-colors"
+              className="flex items-center justify-between p-2 rounded-md hover:bg-[#131b28] text-slate-300 transition-colors"
             >
-              <span className="font-medium text-slate-800">Benchmarks</span>
-              <span className="text-[10px] text-slate-400">Standardized Suites</span>
+              <span className="font-medium text-slate-200">Benchmarks</span>
+              <span className="text-[10px] text-slate-500 font-mono">EVAL_01</span>
             </Link>
             <Link
               to="/evaluators"
               onClick={() => setIsSearchOpen(false)}
-              className="flex items-center justify-between p-2 rounded-md hover:bg-slate-50 transition-colors"
+              className="flex items-center justify-between p-2 rounded-md hover:bg-[#131b28] text-slate-300 transition-colors"
             >
-              <span className="font-medium text-slate-800">Evaluators</span>
-              <span className="text-[10px] text-slate-400">Rubric Configuration</span>
+              <span className="font-medium text-slate-200">Evaluators</span>
+              <span className="text-[10px] text-slate-500 font-mono">EVAL_03</span>
             </Link>
           </div>
         </div>

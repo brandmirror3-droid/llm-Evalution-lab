@@ -97,17 +97,17 @@ export const BenchmarksPage: React.FC = () => {
       }
       maxWidth="wide"
     >
-      <div className="space-y-6">
+      <div className="space-y-4 font-mono">
         {/* Section 1: Standard Academic Benchmark Catalog */}
-        <div className="bg-white border border-slate-200 rounded-lg overflow-hidden space-y-3 p-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
+        <div className="bg-[#0c111a] border border-slate-800 rounded-lg overflow-hidden space-y-3 p-4 shadow-sm">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800/80">
             <div className="flex items-center gap-2">
-              <BookOpen className="w-4 h-4 text-slate-400" />
+              <BookOpen className="w-4 h-4 text-sky-400" />
               <div>
-                <h3 className="text-xs font-semibold text-slate-900">
+                <h3 className="text-xs font-bold text-slate-100 uppercase tracking-wider font-mono">
                   Published Academic Benchmark Specifications
                 </h3>
-                <p className="text-[11px] text-slate-500">
+                <p className="text-[11px] text-slate-400 font-sans">
                   Standardized peer-reviewed evaluation batteries used across foundation model research.
                 </p>
               </div>
@@ -115,57 +115,57 @@ export const BenchmarksPage: React.FC = () => {
 
             <div className="flex items-center gap-2">
               <div className="relative">
-                <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
+                <Search className="w-3.5 h-3.5 text-slate-500 absolute left-2.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
                   placeholder="Filter suites..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="bg-slate-50 border border-slate-200 rounded-md pl-8 pr-3 py-1 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-sky-500 w-44 font-sans"
+                  className="bg-[#101622] border border-slate-800 rounded pl-8 pr-3 py-1 text-xs text-slate-200 placeholder-slate-600 focus:outline-none focus:border-sky-500 w-44 font-mono"
                 />
               </div>
 
               <select
                 value={categoryFilter}
                 onChange={(e) => setCategoryFilter(e.target.value)}
-                className="bg-slate-50 border border-slate-200 rounded-md px-2 py-1 text-xs text-slate-700 focus:outline-none focus:border-sky-500 font-sans"
+                className="bg-[#101622] border border-slate-800 rounded px-2 py-1 text-xs text-slate-300 focus:outline-none focus:border-sky-500 font-mono"
               >
-                <option value="all">All Domains</option>
-                <option value="reasoning">Reasoning & STEM</option>
-                <option value="code">Code Generation</option>
-                <option value="truthfulness">Truthfulness & Safety</option>
+                <option value="all">ALL_DOMAINS</option>
+                <option value="reasoning">REASONING_STEM</option>
+                <option value="code">CODE_SYNTHESIS</option>
+                <option value="truthfulness">FACTUALITY_SAFETY</option>
               </select>
             </div>
           </div>
 
-          <div className="border border-slate-200 rounded-md overflow-x-auto">
-            <table className="w-full text-left text-xs">
+          <div className="border border-slate-800 rounded overflow-x-auto">
+            <table className="w-full text-left text-xs font-mono">
               <thead>
-                <tr className="bg-slate-50 border-b border-slate-200 text-slate-500 font-medium text-[11px]">
-                  <th className="py-2 px-3">Suite</th>
-                  <th className="py-2 px-3">Category</th>
-                  <th className="py-2 px-3">Task Architecture</th>
-                  <th className="py-2 px-3">Canonical Volume</th>
-                  <th className="py-2 px-3">Scoring Metric</th>
-                  <th className="py-2 px-3">Provenance</th>
+                <tr className="bg-[#080c14] border-b border-slate-800/80 text-slate-400 font-bold text-[10px]">
+                  <th className="py-2.5 px-3">SUITE_IDENTIFIER</th>
+                  <th className="py-2.5 px-3">EVALUATION_DOMAIN</th>
+                  <th className="py-2.5 px-3">TASK_ARCHITECTURE</th>
+                  <th className="py-2.5 px-3">SAMPLE_VOLUME</th>
+                  <th className="py-2.5 px-3">PRIMARY_METRIC</th>
+                  <th className="py-2.5 px-3">ACADEMIC_PROVENANCE</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 font-sans">
+              <tbody className="divide-y divide-slate-800/60 font-mono text-[11px]">
                 {filteredSuites.map((suite) => (
-                  <tr key={suite.id} className="hover:bg-slate-50/60 transition-colors">
-                    <td className="py-2.5 px-3 font-medium text-slate-900">
-                      <span className="font-mono text-sky-700 mr-1.5">{suite.id.toUpperCase()}</span>
-                      <span className="text-slate-500 font-normal">({suite.name})</span>
+                  <tr key={suite.id} className="hover:bg-[#101622] transition-colors">
+                    <td className="py-2.5 px-3 font-semibold text-slate-100">
+                      <span className="text-sky-400 mr-1.5 font-bold">[{suite.id.toUpperCase()}]</span>
+                      <span className="text-slate-400 font-normal">({suite.name})</span>
                     </td>
-                    <td className="py-2.5 px-3 text-slate-600">
+                    <td className="py-2.5 px-3 text-slate-300">
                       {suite.category}
                     </td>
-                    <td className="py-2.5 px-3 text-slate-500 font-mono text-[11px]">{suite.taskType}</td>
-                    <td className="py-2.5 px-3 font-mono text-slate-700">{suite.sampleCount}</td>
-                    <td className="py-2.5 px-3 font-mono text-slate-700">{suite.metric}</td>
-                    <td className="py-2.5 px-3 text-slate-500 text-[11px] flex items-center gap-1">
+                    <td className="py-2.5 px-3 text-slate-400 text-[10.5px]">{suite.taskType}</td>
+                    <td className="py-2.5 px-3 text-slate-200">{suite.sampleCount}</td>
+                    <td className="py-2.5 px-3 text-sky-300">{suite.metric}</td>
+                    <td className="py-2.5 px-3 text-slate-400 text-[10.5px] flex items-center gap-1">
                       <span>{suite.sourcePaper}</span>
-                      <ArrowUpRight className="w-3 h-3 text-slate-400" />
+                      <ArrowUpRight className="w-3 h-3 text-slate-500" />
                     </td>
                   </tr>
                 ))}
@@ -175,39 +175,39 @@ export const BenchmarksPage: React.FC = () => {
         </div>
 
         {/* Section 2: Local Benchmark Results Matrix */}
-        <div className="bg-white border border-slate-200 rounded-lg p-4 space-y-3">
-          <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+        <div className="bg-[#0c111a] border border-slate-800 rounded-lg p-4 space-y-3 shadow-sm">
+          <div className="flex items-center justify-between pb-2 border-b border-slate-800/80">
             <div>
-              <h3 className="text-xs font-semibold text-slate-900">
-                Comparative Local Benchmark Results
+              <h3 className="text-xs font-bold text-slate-100 uppercase tracking-wider font-mono">
+                Comparative Local Benchmark Execution Matrix
               </h3>
-              <p className="text-[11px] text-slate-500">
+              <p className="text-[11px] text-slate-400 font-sans">
                 Locally executed evaluation scores across tested models.
               </p>
             </div>
-            <span className="text-[10px] font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded">
-              Phase 3 Execution Engine
+            <span className="text-[10px] font-mono text-sky-300 bg-sky-950/40 px-2 py-0.5 rounded border border-sky-800/50">
+              PHASE_03_ENGINE
             </span>
           </div>
 
-          <div className="border border-slate-200 rounded-md overflow-hidden">
-            <table className="w-full text-left text-xs">
+          <div className="border border-slate-800 rounded overflow-hidden">
+            <table className="w-full text-left text-xs font-mono">
               <thead>
-                <tr className="bg-slate-50 border-b border-slate-200 text-slate-500 font-medium text-[11px]">
-                  <th className="py-2 px-3">Model</th>
+                <tr className="bg-[#080c14] border-b border-slate-800/80 text-slate-400 font-bold text-[10px]">
+                  <th className="py-2 px-3">TARGET_MODEL</th>
                   <th className="py-2 px-3">MMLU</th>
                   <th className="py-2 px-3">GSM8K</th>
-                  <th className="py-2 px-3">HumanEval</th>
+                  <th className="py-2 px-3">HUMANEVAL</th>
                   <th className="py-2 px-3">ARC</th>
-                  <th className="py-2 px-3 text-right">Normalized Avg</th>
+                  <th className="py-2 px-3 text-right">NORMALIZED_AVG</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td colSpan={6} className="py-10">
                     <EmptyState
-                      icon={<BarChart2 className="w-5 h-5 text-slate-400" />}
-                      title="No local benchmark runs executed yet"
+                      icon={<BarChart2 className="w-5 h-5 text-sky-400" />}
+                      title="No local benchmark runs executed in current workspace"
                       description="Select a benchmark suite to run automated evaluation across connected foundation models."
                       enablingPhase="Phase 3: Benchmark & Dataset Engine"
                       actionLabel="Verify Benchmark Gate"
@@ -225,16 +225,19 @@ export const BenchmarksPage: React.FC = () => {
       <Modal
         isOpen={isGateModalOpen}
         onClose={() => setIsGateModalOpen(false)}
-        title="Benchmark Runner Gate"
+        title="Benchmark Runner Gate [501]"
         subtitle="Automated batch benchmarking activates in Phase 3."
       >
-        <div className="space-y-3 text-xs text-slate-600">
-          <p className="leading-relaxed">
+        <div className="space-y-3 text-xs font-mono text-slate-300">
+          <p className="leading-relaxed font-sans text-slate-400">
             The benchmark specifications and scoring schemas are defined. Live multi-threaded test execution will activate in Phase 3.
           </p>
-          <div className="p-3 rounded bg-slate-50 border border-slate-200 font-mono text-[11px] text-slate-700 space-y-1">
-            <div className="text-slate-400">// Inactivity Guard Status</div>
-            <div>POST /api/v1/modules/benchmarks/execute → <span className="text-amber-600 font-semibold">501 Not Implemented</span></div>
+          <div className="p-3 rounded bg-[#080c14] border border-slate-800 text-[11px] text-slate-300 space-y-1">
+            <div className="text-slate-500">// Inactivity Guard Status</div>
+            <div>
+              POST /api/v1/modules/benchmarks/execute →{' '}
+              <span className="text-amber-400 font-semibold">501 Not Implemented</span>
+            </div>
             <div>Phase Target: Phase 3 (Benchmark & Dataset Engine)</div>
           </div>
         </div>
