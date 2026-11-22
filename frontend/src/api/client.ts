@@ -40,9 +40,19 @@ export async function apiRequest<T>(
     const data = await response.json().catch(() => null);
 
     if (!response.ok) {
+      let fallbackMessage = `API request failed with status ${response.status}`;
+      if (response.status === 500 && !data) {
+        fallbackMessage =
+          'Backend service is unreachable or dev proxy failed. Ensure FastAPI is running on port 8000.';
+      } else if (response.status === 502 || response.status === 503 || response.status === 504) {
+        fallbackMessage =
+          data?.error?.message ||
+          'Subsystem temporarily unavailable. Check backend logs and database connection.';
+      }
+
       const errorPayload: ApiError = data?.error || {
         code: `HTTP_${response.status}`,
-        message: data?.detail || `API request failed with status ${response.status}`,
+        message: data?.detail || fallbackMessage,
       };
       throw new LabApiError(response.status, errorPayload);
     }

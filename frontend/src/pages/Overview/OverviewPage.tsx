@@ -45,7 +45,7 @@ export const OverviewPage: React.FC = () => {
         <div className="p-3 rounded-md bg-rose-50 border border-rose-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5 text-xs text-rose-700">
           <div className="flex items-center gap-2">
             <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
-            <span>API Gateway offline: {error}</span>
+            <span>Backend Offline: {error}</span>
           </div>
           <Button
             variant="outline"

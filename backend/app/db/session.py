@@ -9,6 +9,7 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine,
 )
 from sqlalchemy import text
+from sqlalchemy.exc import SQLAlchemyError
 
 from app.core.config import settings
 from app.core.errors import DatabaseUnavailableException
@@ -135,6 +136,12 @@ async def get_db_session() -> AsyncGenerator[AsyncSession, None]:
     async with _session_factory() as session:
         try:
             yield session
+        except (SQLAlchemyError, OSError) as exc:
+            await session.rollback()
+            logger.warning(f"Database operation failed: {exc}")
+            raise DatabaseUnavailableException(
+                f"Database operation failed: {exc.__class__.__name__}. Ensure PostgreSQL server is running."
+            ) from exc
         except Exception:
             await session.rollback()
             raise

@@ -8,6 +8,7 @@ from fastapi import FastAPI, Request, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
+from sqlalchemy.exc import SQLAlchemyError
 
 from app.core.logging import logger
 
@@ -112,6 +113,42 @@ def register_error_handlers(app: FastAPI) -> None:
                     "code": f"HTTP_{exc.status_code}",
                     "message": exc.detail,
                     "details": {},
+                    "path": request.url.path,
+                }
+            },
+        )
+
+    @app.exception_handler(SQLAlchemyError)
+    async def sqlalchemy_exception_handler(request: Request, exc: SQLAlchemyError):
+        logger.warning(f"Database error on {request.url.path}: {exc}")
+        return JSONResponse(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            content={
+                "error": {
+                    "code": "DATABASE_UNAVAILABLE",
+                    "message": "Database is unreachable or encountered a connection error. Verify PostgreSQL server is running.",
+                    "details": {
+                        "error_type": type(exc).__name__,
+                        "resolution": "Configure DATABASE_URL in backend/.env and ensure database service is active.",
+                    },
+                    "path": request.url.path,
+                }
+            },
+        )
+
+    @app.exception_handler(OSError)
+    async def os_error_handler(request: Request, exc: OSError):
+        logger.warning(f"Network/socket error on {request.url.path}: {exc}")
+        return JSONResponse(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            content={
+                "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Subsystem connection failed or network socket unavailable.",
+                    "details": {
+                        "error_type": type(exc).__name__,
+                        "resolution": "Verify target service is running on configured host and port.",
+                    },
                     "path": request.url.path,
                 }
             },
