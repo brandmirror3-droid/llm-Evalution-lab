@@ -97,13 +97,13 @@ const TEST_CASES: TestCaseTrace[] = [
 
 export const FailureAnalysisPage: React.FC = () => {
   const [selectedCase, setSelectedCase] = useState<TestCaseTrace>(TEST_CASES[0]);
-  const [activeInspectorTab, setActiveInspectorTab] = useState<'overview' | 'trace' | 'human_audit'>('trace');
+  const [activeInspectorTab, setActiveInspectorTab] = useState<'trace' | 'human_audit'>('trace');
   const [isGateModalOpen, setIsGateModalOpen] = useState(false);
 
   return (
     <PageContainer
-      title="Failure Analysis"
-      subtitle="Forensic failure taxonomy, automated vs human review discrepancy audit, and root-cause attribution."
+      title="Failure Analysis & Forensics"
+      subtitle="Forensic failure taxonomy, discrepancy inspection between model output and ground truth, and root-cause attribution."
       actions={
         <Button
           variant="primary"
@@ -117,13 +117,13 @@ export const FailureAnalysisPage: React.FC = () => {
       maxWidth="wide"
     >
       <div className="space-y-4">
-        {/* Test Run Metadata Header (Inspired by Rhesis AI Reference Image 4) */}
-        <div className="bg-[#0c111a] border border-[#1e293b] rounded-lg p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        {/* Test Run Metadata Header */}
+        <div className="bg-[#1C1F22] border border-[#35393D] rounded-sm p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <div className="text-[10px] font-mono text-slate-400">TEST RUN / BATCH FORENSICS</div>
-            <div className="text-base font-bold font-mono text-slate-100 flex items-center gap-2">
+            <div className="text-[10px] font-mono text-[#687179] uppercase">TEST RUN / FORENSIC BATCH</div>
+            <div className="text-base font-bold font-mono text-[#D9DEE2] flex items-center gap-2 mt-0.5">
               <span>refined-larva</span>
-              <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-950/40 border border-emerald-800/60 text-emerald-400 font-normal">
+              <span className="text-[10px] px-1.5 py-0.5 rounded-sm bg-[#10b981]/10 border border-[#10b981]/30 text-[#10b981] font-normal">
                 Completed
               </span>
             </div>
@@ -131,41 +131,41 @@ export const FailureAnalysisPage: React.FC = () => {
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs font-mono">
             <div>
-              <span className="text-slate-400 text-[10px] block">Pass Rate</span>
-              <span className="text-base font-bold text-amber-400">25.0%</span>
-              <span className="text-[10px] text-slate-500 block">1 of 4 tests</span>
+              <span className="text-[#687179] text-[10px] block">Pass Rate</span>
+              <span className="text-base font-bold text-[#f59e0b]">25.0%</span>
+              <span className="text-[10px] text-[#687179] block">1 of 4 tests</span>
             </div>
             <div>
-              <span className="text-slate-400 text-[10px] block">Tests Executed</span>
-              <span className="text-base font-bold text-slate-200">4</span>
-              <span className="text-[10px] text-slate-500 block">Avg 8 turns</span>
+              <span className="text-[#687179] text-[10px] block">Tests Executed</span>
+              <span className="text-base font-bold text-[#D9DEE2]">4</span>
+              <span className="text-[10px] text-[#687179] block">Avg 8 turns</span>
             </div>
             <div>
-              <span className="text-slate-400 text-[10px] block">Run Duration</span>
-              <span className="text-base font-bold text-slate-200 flex items-center gap-1">
-                <Clock className="w-3 h-3 text-sky-400" />
+              <span className="text-[#687179] text-[10px] block">Run Duration</span>
+              <span className="text-base font-bold text-[#D9DEE2] flex items-center gap-1">
+                <Clock className="w-3 h-3 text-[#06b6d4]" />
                 1m 11s
               </span>
-              <span className="text-[10px] text-slate-500 block">Mar 3, 2026</span>
+              <span className="text-[10px] text-[#687179] block">Mar 3, 2026</span>
             </div>
             <div>
-              <span className="text-slate-400 text-[10px] block">Endpoint Target</span>
-              <span className="text-slate-200 font-semibold block truncate">Travel Assistant v2</span>
-              <span className="text-[10px] text-slate-500 block">gpt-4o</span>
+              <span className="text-[#687179] text-[10px] block">Endpoint Target</span>
+              <span className="text-[#D9DEE2] font-semibold block truncate">Travel Assistant v2</span>
+              <span className="text-[10px] text-[#687179] block">gpt-4o</span>
             </div>
           </div>
         </div>
 
-        {/* Conflict Alert Banner (Direct match to Rhesis AI Image 4) */}
+        {/* Conflict Alert Banner */}
         {selectedCase.hasConflict && (
-          <div className="p-3 bg-amber-500/10 border border-amber-500/30 rounded-lg flex items-start gap-2.5 text-xs">
-            <ShieldAlert className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+          <div className="p-3 bg-[#f59e0b]/10 border border-[#f59e0b]/30 rounded-sm flex items-start gap-2.5 text-xs">
+            <ShieldAlert className="w-4 h-4 text-[#f59e0b] shrink-0 mt-0.5" />
             <div>
-              <div className="font-semibold text-amber-300 font-mono">
+              <div className="font-semibold text-[#f59e0b] font-mono">
                 Status Conflict Detected: Reviewer disagreed with automated evaluator
               </div>
-              <p className="text-slate-300 text-[11px] mt-0.5">
-                The automated evaluator scored this turn as <span className="font-mono text-emerald-400">Passed (1/1)</span>, but human verification logged a failure due to editorial tone bias and consistency contradiction.
+              <p className="text-[#929BA3] text-[11px] mt-0.5">
+                The automated evaluator scored this turn as <span className="font-mono text-[#10b981]">Passed (1/1)</span>, but human verification logged a failure due to editorial tone bias and consistency contradiction.
               </p>
             </div>
           </div>
@@ -173,14 +173,14 @@ export const FailureAnalysisPage: React.FC = () => {
 
         {/* 2-Column Forensic Investigation Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
-          {/* Left Column: Test Cases / Incidents (~35% width / col-span-4) */}
-          <div className="lg:col-span-4 bg-[#0c111a] border border-[#1e293b] rounded-lg p-3.5 space-y-3">
-            <div className="flex items-center justify-between pb-2 border-b border-[#1e293b]">
-              <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-200 font-mono">
-                <Bug className="w-4 h-4 text-rose-400" />
+          {/* Left Column: Incident Log (col-span-4) */}
+          <div className="lg:col-span-4 bg-[#1C1F22] border border-[#35393D] rounded-sm p-3.5 space-y-3">
+            <div className="flex items-center justify-between pb-2 border-b border-[#35393D]">
+              <div className="flex items-center gap-1.5 text-xs font-semibold text-[#D9DEE2] font-mono">
+                <Bug className="w-4 h-4 text-[#ef4444]" />
                 <span>INCIDENT LOG ({TEST_CASES.length})</span>
               </div>
-              <span className="text-[10px] font-mono text-slate-400">Filtered</span>
+              <span className="text-[10px] font-mono text-[#687179]">Filtered</span>
             </div>
 
             <div className="space-y-1.5">
@@ -190,35 +190,35 @@ export const FailureAnalysisPage: React.FC = () => {
                   <div
                     key={tc.id}
                     onClick={() => setSelectedCase(tc)}
-                    className={`p-2.5 rounded border text-xs cursor-pointer transition-all ${
+                    className={`p-2.5 rounded-sm border text-xs cursor-pointer transition-all ${
                       isSelected
-                        ? 'bg-rose-500/15 border-rose-500/50 shadow-sm'
-                        : 'bg-[#101622] border-[#1e293b] hover:bg-[#141c2b]'
+                        ? 'bg-[#ef4444]/10 border-[#ef4444]/50'
+                        : 'bg-[#17191B] border-[#35393D] hover:bg-[#232629]'
                     }`}
                   >
                     <div className="flex items-center justify-between mb-1">
-                      <span className="font-mono text-[10px] text-slate-400">{tc.id}</span>
+                      <span className="font-mono text-[10px] text-[#687179]">{tc.id}</span>
                       <span
-                        className={`text-[9px] font-mono uppercase px-1.5 py-0.2 rounded flex items-center gap-1 ${
+                        className={`text-[9px] font-mono uppercase px-1.5 py-0.2 rounded-sm flex items-center gap-1 ${
                           tc.status === 'failed'
-                            ? 'bg-rose-950/40 text-rose-400 border border-rose-800/60'
-                            : 'bg-emerald-950/40 text-emerald-400 border border-emerald-800/60'
+                            ? 'bg-[#ef4444]/15 text-[#ef4444] border border-[#ef4444]/30'
+                            : 'bg-[#10b981]/15 text-[#10b981] border border-[#10b981]/30'
                         }`}
                       >
                         {tc.status === 'failed' ? (
-                          <XCircle className="w-2.5 h-2.5 text-rose-400" />
+                          <XCircle className="w-2.5 h-2.5 text-[#ef4444]" />
                         ) : (
-                          <CheckCircle2 className="w-2.5 h-2.5 text-emerald-400" />
+                          <CheckCircle2 className="w-2.5 h-2.5 text-[#10b981]" />
                         )}
                         {tc.status}
                       </span>
                     </div>
-                    <p className={`text-[11px] leading-snug line-clamp-2 ${isSelected ? 'text-slate-100' : 'text-slate-300'}`}>
+                    <p className={`text-[11px] leading-snug line-clamp-2 ${isSelected ? 'text-[#D9DEE2]' : 'text-[#929BA3]'}`}>
                       {tc.name}
                     </p>
-                    <div className="mt-1 flex items-center justify-between text-[10px] text-slate-500 font-mono">
+                    <div className="mt-1 flex items-center justify-between text-[10px] text-[#687179] font-mono">
                       <span>{tc.turnsCount} turns</span>
-                      {tc.hasConflict && <span className="text-amber-400 font-semibold">⚠️ Conflict</span>}
+                      {tc.hasConflict && <span className="text-[#f59e0b] font-semibold">⚠️ Conflict</span>}
                     </div>
                   </div>
                 );
@@ -226,28 +226,28 @@ export const FailureAnalysisPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Column: Case Discrepancy & Trace Inspector (~65% width / col-span-8) */}
-          <div className="lg:col-span-8 bg-[#0c111a] border border-[#1e293b] rounded-lg p-4 space-y-3.5">
-            <div className="flex items-center justify-between pb-2.5 border-b border-[#1e293b]">
+          {/* Right Column: Case Discrepancy & Trace Inspector (col-span-8) */}
+          <div className="lg:col-span-8 bg-[#1C1F22] border border-[#35393D] rounded-sm p-4 space-y-3.5">
+            <div className="flex items-center justify-between pb-2.5 border-b border-[#35393D]">
               <div className="flex items-center gap-2">
-                <Split className="w-4 h-4 text-sky-400" />
-                <h3 className="text-xs font-semibold text-slate-200 font-mono uppercase tracking-wider">
+                <Split className="w-4 h-4 text-[#06b6d4]" />
+                <h3 className="text-xs font-semibold text-[#D9DEE2] font-mono uppercase tracking-wider">
                   Trace Inspector: {selectedCase.id}
                 </h3>
               </div>
-              <div className="flex items-center gap-1 bg-[#101622] p-0.5 rounded border border-[#1e293b]">
+              <div className="flex items-center gap-1 bg-[#101214] p-0.5 rounded-sm border border-[#35393D]">
                 <button
                   onClick={() => setActiveInspectorTab('trace')}
-                  className={`px-2 py-0.5 text-[10px] font-mono rounded transition-colors ${
-                    activeInspectorTab === 'trace' ? 'bg-sky-500/20 text-sky-300 font-semibold' : 'text-slate-400 hover:text-slate-200'
+                  className={`px-2 py-0.5 text-[10px] font-mono rounded-sm transition-colors ${
+                    activeInspectorTab === 'trace' ? 'bg-[#06b6d4]/20 text-[#06b6d4] font-semibold' : 'text-[#687179] hover:text-[#929BA3]'
                   }`}
                 >
                   Discrepancy Diff
                 </button>
                 <button
                   onClick={() => setActiveInspectorTab('human_audit')}
-                  className={`px-2 py-0.5 text-[10px] font-mono rounded transition-colors ${
-                    activeInspectorTab === 'human_audit' ? 'bg-sky-500/20 text-sky-300 font-semibold' : 'text-slate-400 hover:text-slate-200'
+                  className={`px-2 py-0.5 text-[10px] font-mono rounded-sm transition-colors ${
+                    activeInspectorTab === 'human_audit' ? 'bg-[#06b6d4]/20 text-[#06b6d4] font-semibold' : 'text-[#687179] hover:text-[#929BA3]'
                   }`}
                 >
                   Review Audit
@@ -260,10 +260,10 @@ export const FailureAnalysisPage: React.FC = () => {
               <div className="space-y-3 text-xs">
                 {/* Prompt */}
                 <div className="space-y-1">
-                  <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">
+                  <span className="text-[10px] font-mono text-[#687179] uppercase tracking-wider block">
                     Evaluation Prompt Input
                   </span>
-                  <div className="p-2.5 bg-[#101622] rounded border border-[#1e293b] font-mono text-[11px] text-slate-200">
+                  <div className="p-2.5 bg-[#101214] rounded-sm border border-[#35393D] font-mono text-[11px] text-[#D9DEE2]">
                     {selectedCase.prompt}
                   </div>
                 </div>
@@ -271,60 +271,60 @@ export const FailureAnalysisPage: React.FC = () => {
                 {/* Model Output vs Expected */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div className="space-y-1">
-                    <span className="text-[10px] font-mono text-rose-400 uppercase tracking-wider block flex items-center justify-between">
+                    <span className="text-[10px] font-mono text-[#ef4444] uppercase tracking-wider flex items-center justify-between">
                       <span>Model Output (Observed)</span>
-                      <span className="text-[9px] bg-rose-950/40 text-rose-400 px-1 py-0.2 rounded border border-rose-800/60">Discrepancy</span>
+                      <span className="text-[9px] bg-[#ef4444]/10 text-[#ef4444] px-1 py-0.2 rounded-sm border border-[#ef4444]/30">Discrepancy</span>
                     </span>
-                    <div className="p-2.5 bg-rose-950/20 rounded border border-rose-900/50 font-mono text-[11px] text-rose-200 whitespace-pre-wrap min-h-[90px] leading-relaxed">
+                    <div className="p-2.5 bg-[#ef4444]/5 rounded-sm border border-[#ef4444]/30 font-mono text-[11px] text-[#D9DEE2] whitespace-pre-wrap min-h-[90px] leading-relaxed">
                       {selectedCase.modelOutput}
                     </div>
                   </div>
 
                   <div className="space-y-1">
-                    <span className="text-[10px] font-mono text-emerald-400 uppercase tracking-wider block flex items-center justify-between">
+                    <span className="text-[10px] font-mono text-[#10b981] uppercase tracking-wider flex items-center justify-between">
                       <span>Expected Ground Truth</span>
-                      <span className="text-[9px] bg-emerald-950/40 text-emerald-400 px-1 py-0.2 rounded border border-emerald-800/60">Target</span>
+                      <span className="text-[9px] bg-[#10b981]/10 text-[#10b981] px-1 py-0.2 rounded-sm border border-[#10b981]/30">Target</span>
                     </span>
-                    <div className="p-2.5 bg-emerald-950/20 rounded border border-emerald-900/50 font-mono text-[11px] text-emerald-200 whitespace-pre-wrap min-h-[90px] leading-relaxed">
+                    <div className="p-2.5 bg-[#10b981]/5 rounded-sm border border-[#10b981]/30 font-mono text-[11px] text-[#D9DEE2] whitespace-pre-wrap min-h-[90px] leading-relaxed">
                       {selectedCase.expectedOutput}
                     </div>
                   </div>
                 </div>
 
                 {/* Diagnostics & Mitigation */}
-                <div className="p-3 bg-[#101622] rounded border border-[#1e293b] space-y-2">
+                <div className="p-3 bg-[#101214] rounded-sm border border-[#35393D] space-y-2">
                   <div className="flex items-start gap-2">
-                    <Lightbulb className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
+                    <Lightbulb className="w-3.5 h-3.5 text-[#f59e0b] shrink-0 mt-0.5" />
                     <div>
-                      <span className="font-semibold text-slate-200 font-mono text-[11px]">Hypothesized Root Cause: </span>
-                      <span className="text-slate-300 text-[11px]">{selectedCase.rootCause}</span>
+                      <span className="font-semibold text-[#D9DEE2] font-mono text-[11px]">Hypothesized Root Cause: </span>
+                      <span className="text-[#929BA3] text-[11px]">{selectedCase.rootCause}</span>
                     </div>
                   </div>
-                  <div className="pt-1.5 border-t border-[#1e293b] text-[11px]">
-                    <span className="font-semibold text-slate-200 font-mono">Recommended Countermeasure: </span>
-                    <span className="text-slate-300">{selectedCase.countermeasure}</span>
+                  <div className="pt-1.5 border-t border-[#35393D] text-[11px]">
+                    <span className="font-semibold text-[#D9DEE2] font-mono">Recommended Countermeasure: </span>
+                    <span className="text-[#929BA3]">{selectedCase.countermeasure}</span>
                   </div>
                 </div>
               </div>
             )}
 
-            {/* TAB 2: Review Audit (Inspired by Rhesis AI Review History) */}
+            {/* TAB 2: Review Audit */}
             {activeInspectorTab === 'human_audit' && (
               <div className="space-y-3 text-xs">
-                <div className="p-3 bg-[#101622] rounded border border-[#1e293b] space-y-2">
-                  <div className="flex items-center justify-between text-slate-400 text-[10px] font-mono">
-                    <span className="font-semibold text-slate-200 flex items-center gap-1.5">
-                      <MessageSquare className="w-3 h-3 text-sky-400" />
+                <div className="p-3 bg-[#101214] rounded-sm border border-[#35393D] space-y-2">
+                  <div className="flex items-center justify-between text-[#687179] text-[10px] font-mono">
+                    <span className="font-semibold text-[#D9DEE2] flex items-center gap-1.5">
+                      <MessageSquare className="w-3 h-3 text-[#06b6d4]" />
                       Lead Evaluator Audit Note
                     </span>
                     <span>Audit Time: 2026-03-03 20:39:35</span>
                   </div>
-                  <div className="p-2 bg-[#080c14] rounded border border-[#1e293b] text-slate-200 font-sans text-xs leading-relaxed">
+                  <div className="p-2.5 bg-[#17191B] rounded-sm border border-[#35393D] text-[#D9DEE2] font-sans text-xs leading-relaxed">
                     {selectedCase.humanComment}
                   </div>
-                  <div className="flex items-center gap-3 pt-1 text-[10px] font-mono text-slate-400">
-                    <span>Automated Engine: <strong className="text-emerald-400">{selectedCase.automatedResult}</strong></span>
-                    <span>Human Auditor: <strong className="text-rose-400">{selectedCase.humanResult}</strong></span>
+                  <div className="flex items-center gap-4 pt-1 text-[10px] font-mono text-[#687179]">
+                    <span>Automated Engine: <strong className="text-[#10b981]">{selectedCase.automatedResult}</strong></span>
+                    <span>Human Auditor: <strong className="text-[#ef4444]">{selectedCase.humanResult}</strong></span>
                   </div>
                 </div>
               </div>
@@ -333,9 +333,9 @@ export const FailureAnalysisPage: React.FC = () => {
         </div>
 
         {/* Live Failures Empty State */}
-        <div className="bg-[#0c111a] border border-[#1e293b] rounded-lg p-4">
+        <div className="bg-[#1C1F22] border border-[#35393D] rounded-sm p-4">
           <EmptyState
-            icon={<AlertTriangle className="w-5 h-5 text-slate-500" />}
+            icon={<AlertTriangle className="w-5 h-5 text-[#687179]" />}
             title="Automated clustering awaiting activation"
             description="Run model evaluations across corpora to automatically cluster hallucination patterns, persona drift, and safety violations."
             enablingPhase="Phase 6: Failure Analysis & Error Intelligence"
@@ -349,16 +349,18 @@ export const FailureAnalysisPage: React.FC = () => {
       <Modal
         isOpen={isGateModalOpen}
         onClose={() => setIsGateModalOpen(false)}
-        title="Failure Clustering Gate"
+        title="Failure Clustering Gate [501]"
         subtitle="Automated semantic error clustering activates in Phase 6."
       >
-        <div className="space-y-3 text-xs text-slate-300">
-          <p className="leading-relaxed">
+        <div className="space-y-3 text-xs text-[#D9DEE2] font-mono">
+          <p className="leading-relaxed font-sans text-[#929BA3]">
             The failure taxonomy schemas and LCS diffing models are architected. Live clustering and vector semantic error trees will activate in Phase 6.
           </p>
-          <div className="p-3 rounded bg-[#080c14] border border-[#1e293b] font-mono text-[11px] text-slate-300 space-y-1">
-            <div className="text-slate-500">// Inactivity Guard Status</div>
-            <div>POST /api/v1/modules/failure-analysis/execute → <span className="text-amber-400 font-semibold">501 Not Implemented</span></div>
+          <div className="p-3 rounded-sm bg-[#101214] border border-[#35393D] text-[11px] space-y-1">
+            <div className="text-[#687179]">// Inactivity Guard Status</div>
+            <div>
+              POST /api/v1/modules/failure-analysis/execute → <span className="text-[#f59e0b] font-semibold">501 Not Implemented</span>
+            </div>
             <div>Phase Target: Phase 6 (Failure Analysis & Error Intelligence)</div>
           </div>
         </div>

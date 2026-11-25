@@ -8,37 +8,33 @@ export default {
     extend: {
       colors: {
         lab: {
-          canvas: "#090d14",
-          surface: "#0e141f",
-          surfaceElevated: "#141c2b",
-          surfaceHover: "#1b2538",
-          surfaceActive: "#223048",
-          card: "#0e141f",
-          cardHover: "#141c2b",
-          inset: "#06090e",
-          border: "#1e293b",
-          borderSubtle: "#141d2b",
-          borderStrong: "#334155",
+          canvas: "#111315",          // Application background
+          workspace: "#17191B",       // Workspace background
+          surface: "#1C1F22",         // Panel background
+          surfaceElevated: "#232629", // Elevated panel
+          plot: "#101214",            // Plot background
+          border: "#35393D",          // Subtle technical border
+          borderSubtle: "#2A2D31",
+          borderStrong: "#454A50",
           text: {
-            primary: "#f8fafc",
-            secondary: "#cbd5e1",
-            muted: "#94a3b8",
-            faint: "#64748b",
+            primary: "#D9DEE2",       // Primary text
+            secondary: "#929BA3",     // Secondary text
+            muted: "#687179",         // Muted text
+            faint: "#4D545B",
           },
           accent: {
-            primary: "#38bdf8",
-            primaryHover: "#0ea5e9",
-            primarySubtle: "rgba(56, 189, 248, 0.12)",
-            emerald: "#10b981",
-            emeraldSubtle: "rgba(16, 185, 129, 0.12)",
-            amber: "#f59e0b",
+            amber: "#f59e0b",         // Experiment activity / selected instrument
             amberSubtle: "rgba(245, 158, 11, 0.12)",
-            rose: "#f43f5e",
-            roseSubtle: "rgba(244, 63, 94, 0.12)",
-            purple: "#a855f7",
-            purpleSubtle: "rgba(168, 85, 247, 0.12)",
-            slate: "#94a3b8",
-            slateSubtle: "rgba(148, 163, 184, 0.1)",
+            cyan: "#06b6d4",          // Model / inference trace
+            cyanSubtle: "rgba(6, 182, 212, 0.12)",
+            green: "#10b981",         // Verified / healthy / successful
+            greenSubtle: "rgba(16, 185, 129, 0.12)",
+            red: "#ef4444",           // Failure / error / risk
+            redSubtle: "rgba(239, 68, 68, 0.12)",
+            violet: "#8b5cf6",        // Evaluator / statistical analysis
+            violetSubtle: "rgba(139, 92, 246, 0.12)",
+            yellow: "#eab308",        // Warning / uncertainty
+            yellowSubtle: "rgba(234, 179, 8, 0.12)",
           },
         },
       },
@@ -62,34 +58,14 @@ export default {
         ],
       },
       boxShadow: {
-        subtle: "0 1px 2px 0 rgba(0, 0, 0, 0.04)",
-        card: "0 1px 3px 0 rgba(15, 23, 42, 0.06), 0 1px 2px -1px rgba(15, 23, 42, 0.04)",
-        cardHover: "0 4px 12px -2px rgba(15, 23, 42, 0.08), 0 2px 6px -2px rgba(15, 23, 42, 0.04)",
-        modal: "0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.05)",
-        inset: "inset 0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+        subtle: "0 1px 2px 0 rgba(0, 0, 0, 0.25)",
+        card: "0 1px 3px 0 rgba(0, 0, 0, 0.35)",
+        modal: "0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 8px 10px -6px rgba(0, 0, 0, 0.4)",
+        plot: "inset 0 0 12px rgba(0, 0, 0, 0.6)",
       },
       transitionTimingFunction: {
         apple: "cubic-bezier(0.16, 1, 0.3, 1)",
         linearEase: "cubic-bezier(0.25, 0.1, 0.25, 1)",
-      },
-      animation: {
-        shimmer: "shimmer 2s infinite linear",
-        pulseSubtle: "pulseSubtle 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-        breathe: "breathe 6s ease-in-out infinite",
-      },
-      keyframes: {
-        shimmer: {
-          "0%": { transform: "translateX(-100%)" },
-          "100%": { transform: "translateX(100%)" },
-        },
-        pulseSubtle: {
-          "0%, 100%": { opacity: "1" },
-          "50%": { opacity: "0.6" },
-        },
-        breathe: {
-          "0%, 100%": { opacity: "0.4", transform: "scale(1)" },
-          "50%": { opacity: "0.85", transform: "scale(1.02)" },
-        },
       },
     },
   },

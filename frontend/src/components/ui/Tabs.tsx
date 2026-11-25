@@ -26,26 +26,26 @@ export const Tabs: React.FC<TabsProps> = ({
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <div className={`flex items-center gap-1 border-b border-slate-800 ${className}`}>
+    <div className={`flex items-center gap-1 border-b border-[#35393D] ${className}`}>
       {tabs.map((tab) => {
         const isActive = tab.id === activeTab;
         return (
           <button
             key={tab.id}
             onClick={() => onChange(tab.id)}
-            className={`relative flex items-center gap-2 px-3 py-2 text-xs font-medium transition-colors select-none ${
+            className={`relative flex items-center gap-2 px-3 py-1.5 text-xs font-mono font-medium transition-colors select-none ${
               isActive
-                ? 'text-sky-400 font-semibold'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'text-[#D9DEE2] font-semibold'
+                : 'text-[#929BA3] hover:text-[#D9DEE2]'
             }`}
           >
-            <span className="relative z-10">{tab.label}</span>
+            <span className="relative z-10 uppercase tracking-wider text-[11px]">{tab.label}</span>
             {tab.count !== undefined && tab.count !== null && (
               <span
-                className={`relative z-10 text-[10px] font-mono px-1.5 py-0.2 rounded-full ${
+                className={`relative z-10 text-[9px] font-mono px-1 py-0.2 rounded-sm ${
                   isActive
-                    ? 'bg-sky-500/20 text-sky-300 border border-sky-500/30 font-medium'
-                    : 'bg-slate-800/80 text-slate-400 border border-slate-700/50'
+                    ? 'bg-cyan-950/60 text-cyan-300 border border-cyan-700/60 font-semibold'
+                    : 'bg-[#232629] text-[#929BA3] border border-[#35393D]'
                 }`}
               >
                 {tab.count}
@@ -57,7 +57,7 @@ export const Tabs: React.FC<TabsProps> = ({
             {isActive && (
               <motion.span
                 layoutId={shouldReduceMotion ? undefined : `${idPrefix}-active-indicator`}
-                className="absolute bottom-0 left-0 right-0 h-0.5 bg-sky-400 rounded-t"
+                className="absolute bottom-0 left-0 right-0 h-0.5 bg-cyan-400"
                 transition={{
                   type: 'spring',
                   stiffness: 420,

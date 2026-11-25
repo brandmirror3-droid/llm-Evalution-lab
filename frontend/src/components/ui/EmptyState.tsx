@@ -37,28 +37,28 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
       className={`py-8 px-4 flex flex-col items-center justify-center text-center ${className}`}
     >
       {icon && (
-        <div className="w-8 h-8 rounded bg-[#131b28] border border-slate-800 flex items-center justify-center text-slate-400 mb-2">
+        <div className="w-8 h-8 rounded-sm bg-[#1C1F22] border border-[#35393D] flex items-center justify-center text-[#929BA3] mb-2">
           {icon}
         </div>
       )}
-      <h4 className="text-xs font-semibold text-slate-200 tracking-tight">
+      <h4 className="text-xs font-semibold text-[#D9DEE2] font-mono uppercase tracking-wider">
         {title}
       </h4>
       {displayDescription && (
-        <p className="text-[11px] text-slate-400 mt-1 max-w-sm leading-relaxed">
+        <p className="text-[11px] text-[#929BA3] mt-1 max-w-sm leading-relaxed">
           {displayDescription}
         </p>
       )}
 
       {displayPhase && (
-        <div className="mt-2 text-[10px] text-sky-400/90 font-mono bg-sky-950/40 px-2 py-0.5 rounded border border-sky-800/50">
+        <div className="mt-2 text-[10px] text-cyan-400 font-mono bg-cyan-950/40 px-2 py-0.5 rounded-sm border border-cyan-800/50">
           {displayPhase}
         </div>
       )}
 
       {/* Action CTA */}
       {(action || (actionLabel && onAction)) && (
-        <div className="mt-3.5">
+        <div className="mt-3">
           {action || (
             <Button variant="primary" size="xs" onClick={onAction}>
               {actionLabel}

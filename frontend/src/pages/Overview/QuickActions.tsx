@@ -45,10 +45,10 @@ export const QuickActions: React.FC = () => {
   return (
     <div className="space-y-2 font-mono">
       <div className="flex items-center justify-between">
-        <h3 className="text-[11px] font-bold text-slate-400 uppercase tracking-wider font-mono">
+        <h3 className="text-[11px] font-bold text-[#D9DEE2] uppercase tracking-wider">
           Scientific Module Launchers
         </h3>
-        <span className="text-[10px] text-slate-500 font-mono">PHASE_01_WORKSTATIONS</span>
+        <span className="text-[10px] text-[#687179]">PHASE_01_WORKSTATIONS</span>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
@@ -58,20 +58,20 @@ export const QuickActions: React.FC = () => {
             <Link
               key={m.id}
               to={m.path}
-              className="group p-3 rounded-lg border border-slate-800 bg-[#0c111a] hover:border-sky-500/60 hover:bg-[#111724] transition-all flex flex-col justify-between space-y-2 shadow-sm"
+              className="group p-3 rounded-sm border border-[#35393D] bg-[#1C1F22] hover:border-cyan-500 hover:bg-[#232629] transition-all flex flex-col justify-between space-y-2 shadow-sm"
             >
               <div className="flex items-center justify-between">
-                <div className="w-7 h-7 rounded bg-[#101622] border border-slate-800 flex items-center justify-center text-sky-400 group-hover:border-sky-500/40 transition-colors">
+                <div className="w-6 h-6 rounded-sm bg-[#111315] border border-[#35393D] flex items-center justify-center text-cyan-400 group-hover:border-cyan-500/50 transition-colors">
                   <Icon className="w-3.5 h-3.5" />
                 </div>
-                <ArrowUpRight className="w-3.5 h-3.5 text-slate-500 group-hover:text-sky-400 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                <ArrowUpRight className="w-3.5 h-3.5 text-[#687179] group-hover:text-cyan-400 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </div>
 
               <div>
-                <h4 className="text-xs font-semibold text-slate-200 group-hover:text-sky-300 transition-colors">
+                <h4 className="text-xs font-semibold text-[#D9DEE2] group-hover:text-cyan-300 transition-colors">
                   {m.title}
                 </h4>
-                <p className="text-[10.5px] text-slate-400 font-sans mt-0.5 leading-snug line-clamp-2">
+                <p className="text-[10.5px] text-[#929BA3] font-sans mt-0.5 leading-snug line-clamp-2">
                   {m.description}
                 </p>
               </div>

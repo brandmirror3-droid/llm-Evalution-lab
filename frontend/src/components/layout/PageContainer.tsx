@@ -21,25 +21,25 @@ export const PageContainer: React.FC<PageContainerProps> = ({
 }) => {
   const widthClasses = {
     standard: 'max-w-7xl',
-    wide: 'max-w-[1550px]',
+    wide: 'max-w-[1600px]',
     full: 'w-full',
   };
 
   return (
-    <div className={`mx-auto px-4 sm:px-6 py-5 space-y-5 ${widthClasses[maxWidth]} ${className}`}>
+    <div className={`mx-auto px-3 sm:px-5 py-3.5 space-y-3.5 ${widthClasses[maxWidth]} ${className}`}>
       {(title || subtitle || actions) && (
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-3 border-b border-slate-800">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5 pb-2.5 border-b border-[#35393D]">
           <div className="space-y-0.5">
             <div className="flex items-center gap-2">
               {title && (
-                <h1 className="text-base sm:text-lg font-semibold tracking-tight text-slate-100">
+                <h1 className="text-sm sm:text-base font-semibold tracking-tight text-[#D9DEE2] font-mono uppercase">
                   {title}
                 </h1>
               )}
               {badge}
             </div>
             {subtitle && (
-              <p className="text-xs text-slate-400 leading-normal">
+              <p className="text-[11px] text-[#929BA3] leading-normal font-sans">
                 {subtitle}
               </p>
             )}

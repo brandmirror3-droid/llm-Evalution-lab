@@ -3,6 +3,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { Sidebar } from './Sidebar';
 import { Header } from './Header';
+import { BottomInstrumentStrip } from './BottomInstrumentStrip';
 import { pageVariants } from '../../utils/motion';
 
 export const Shell: React.FC = () => {
@@ -12,7 +13,7 @@ export const Shell: React.FC = () => {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-[#090d14] text-slate-100">
+    <div className="flex h-screen w-screen overflow-hidden bg-[#111315] text-[#D9DEE2]">
       {/* Sidebar navigation */}
       <Sidebar
         isCollapsed={isCollapsed}
@@ -22,9 +23,9 @@ export const Shell: React.FC = () => {
       />
 
       {/* Main View Area */}
-      <div className="flex flex-col flex-1 min-w-0 h-full overflow-hidden">
+      <div className="flex flex-col flex-1 min-w-0 h-full overflow-hidden bg-[#17191B]">
         <Header onOpenMobileSidebar={() => setIsMobileOpen(true)} />
-        <main className="flex-1 overflow-y-auto bg-[#090d14]">
+        <main className="flex-1 overflow-y-auto bg-[#17191B]">
           <AnimatePresence mode="wait">
             <motion.div
               key={location.pathname}
@@ -38,6 +39,7 @@ export const Shell: React.FC = () => {
             </motion.div>
           </AnimatePresence>
         </main>
+        <BottomInstrumentStrip />
       </div>
     </div>
   );

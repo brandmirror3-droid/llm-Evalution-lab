@@ -9,8 +9,8 @@
 body {
   margin: 0;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background-color: #090d14;
-  color: #f8fafc;
+  background-color: #111315;
+  color: #D9DEE2;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -22,19 +22,38 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #090d14;
+  background: #111315;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
-  border-radius: 2px;
+  background: #35393D;
+  border-radius: 1px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: #4D545B;
 }
 
 /* Monospace restricted to technical tokens, code, and identifiers */
 code, pre, .font-mono {
   font-family: 'JetBrains Mono', monospace;
+}
+
+/* Scientific Oscilloscope / OriginPro Plot Grid Surface */
+.oscilloscope-grid {
+  background-color: #101214;
+  background-image: 
+    linear-gradient(rgba(53, 57, 61, 0.25) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(53, 57, 61, 0.25) 1px, transparent 1px),
+    linear-gradient(rgba(53, 57, 61, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(53, 57, 61, 0.08) 1px, transparent 1px);
+  background-size: 50px 50px, 50px 50px, 10px 10px, 10px 10px;
+  background-position: -1px -1px, -1px -1px, -1px -1px, -1px -1px;
+}
+
+/* C3 AI Workflow Canvas Dotted Grid */
+.c3-canvas-grid {
+  background-color: #111315;
+  background-image: radial-gradient(#35393D 1px, transparent 1px);
+  background-size: 20px 20px;
 }
